@@ -15,6 +15,8 @@ const UserPlaces = () => {
   const userId = useParams().userId;
   useEffect(() => {
     const fetchPlaces = async () => {
+      console.log('heeeeeeeeeeeeeeeeeeeeeeeee') ; 
+      console.log(userId) ; 
       try {
         const responseData = await sendRequest(
           `http://localhost:5000/api/places/user/${userId}`
@@ -27,7 +29,7 @@ const UserPlaces = () => {
 
   const deletePlaceHandler = (deletedPlaceId) => {
     setLoadedPlaces((prevPlaces) =>
-      prevPlaces.filter((place) => place.id !== deletedPlaceId)
+      prevPlaces.filter((place) => place[0].id !== deletedPlaceId)
     );
   };
 
