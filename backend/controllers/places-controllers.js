@@ -21,7 +21,6 @@ con.connect((err) => {
 
 const getPlaceById = async (req, res, next) => {
   const placeId = req.params.pid;
-  console.log(placeId);
   const query = `SELECT * FROM places WHERE id = '${placeId}'`;
   con.query(query, (err, result) => {
     if (err) {
@@ -88,8 +87,6 @@ const getPlacesByUserId = async (req, res, next) => {
     );
 
     return res.json({ placess: places });
-
-
   });
 };
 
@@ -133,6 +130,8 @@ const createPlace = async (req, res, next) => {
       );
       return next(error);
     }
+    console.log(req.userData) ; 
+    console.log(result) ; 
     if (result.length === 0) {
       const error = new HttpError(
         "We couldn't find a user with the provided ID.",
@@ -140,25 +139,24 @@ const createPlace = async (req, res, next) => {
       );
       return next(error);
     }
-  });
-
-  con.query(q2, createdPlace, (err, result) => {
-    if (err) {
-      return next(
-        new HttpError("Creating place failed ,please try again", 500)
-      );
-    }
-    userPlace = {
-      user_id: req.userData.userId,
-      place_id: result.insertId,
-    };
-    con.query(q3, userPlace, (err, result) => {
+    con.query(q2, createdPlace, (err, result) => {
       if (err) {
         return next(
-          new HttpError("Creating place failed ,please try again", 500)
+          new HttpError(err.message, 500)
         );
       }
-      return res.status(201).json({ place: createdPlace });
+      userPlace = {
+        user_id: req.userData.userId,
+        place_id: result.insertId,
+      };
+      con.query(q3, userPlace, (err, result) => { 
+        if (err) {
+          return next(
+            new HttpError("Creating place failed ,please try again", 500)
+          );
+        }
+        return res.status(201).json({ place: createdPlace });
+      });
     });
   });
 };
@@ -182,8 +180,6 @@ const updatePlace = async (req, res, next) => {
     if (result__.length === 0) {
       return next(new HttpError("couldnot update this place", 500));
     }
-    console.log(result__[0]);
-
     if (result__[0].creator !== req.userData.userId) {
       return next(new HttpError("You are not allowed to edit this place", 401));
     }

@@ -4,9 +4,10 @@ import { useState, useCallback, useEffect } from "react";
 let logoutTimer;
 const useAuth = () => {
   const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState(undefined);
+  const [userId, setUserId] = useState(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
   const login = useCallback((uid, token, expirationDate) => {
+    console.log('hereeeeee',uid) ; 
     setUserId(uid);
     setToken(token);
     const tokenExpirationDate =

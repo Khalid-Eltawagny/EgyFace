@@ -81,25 +81,26 @@ const signup = async (req, res, next) => {
       const query = "INSERT INTO users SET ?";
       con.query(query, user, (err, result) => {
         if (err) throw new Error();
+        let token;
+        try {
+          token = jwt.sign(
+            {
+              userId: result.insertId,
+              email: user.email,
+            },
+            "supersecret_dont_share",
+            { expiresIn: "1h" }
+          );
+        } catch (error) {
+          return next(new HttpError("Something went wrong.", 500));
+        }
+        console.log(result) ; 
+        res.status(201).json({ userId: result.insertId, email: user.email, token: token });
       });
     } catch (error) {
       return next(new HttpError("Something went wrong.", 500));
     }
-    let token;
-    try {
-      token = jwt.sign(
-        {
-          userId: user.id,
-          email: user.email,
-        },
-        "supersecret_dont_share",
-        { expiresIn: "1h" }
-      );
-    } catch (error) {
-      return next(new HttpError("Something went wrong.", 500));
-    }
 
-    res.status(201).json({ userId: user.id, email: user.email, token: token });
   });
 };
 
