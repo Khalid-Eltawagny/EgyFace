@@ -1,69 +1,188 @@
 .container {
-    height: 100vh;
-    padding: 10rem;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    background-color: rgb(215, 221, 226);
+  height: 100vh;
+  margin: auto;
+  padding: 10rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(215, 221, 226);
+  height: 100vh;
 }
 
-.info{
-    width: 50%;
-    margin-top: 60px;
-    height: 15rem;
+.info {
+  width: 50%;
+  margin-top: 60px;
+  height: 15rem;
 }
 .info h1 {
-    color: rgba(10, 67, 192, 0.89);
-    margin: 0;
-    font-size: 4rem;
+  color: rgba(10, 67, 192, 0.89);
+  margin: 0;
+  font-size: 4rem;
 }
 
 .info p {
-    font-size: 2rem;
-    margin-top: 0;
+  font-size: 2rem;
+  margin-top: 0;
 }
 
-.form{
-    height: 15rem; 
-    width: 45%;
+.form {
+  min-width: 200px;
+  height: fit-content;
+  width: 45%;
+  text-align: center;
+}
+.form input.signin {
+  width: 100%;
+  height: 50px;
+  padding: 0.5rem;
+  margin: 8px 0rem;
+  border-radius: 6px;
+  border: 0.25px solid rgb(202, 199, 192);
+  font-size: 1.25rem;
+}
+.form button {
+  background-color: rgba(10, 67, 192, 0.89);
+  color: white;
+  border-radius: 6px;
+  width: 100%;
+  margin: 8px 0;
+  height: 40px;
+  font-size: 1.5rem;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+}
+
+.form button:hover {
+  cursor: pointer;
+}
+
+.form .line {
+  width: 100%;
+  border-bottom: 1px solid rgb(209, 205, 205);
+  margin: 20px 0;
+  display: flex;
+}
+
+.form button.newAcc {
+  width: 60%;
+  font-size: 16px;
+  padding: 5px;
+  background-color: rgb(86, 161, 16);
+  display: block;
+  margin: auto;
+}
+
+.signup-info {
+  text-align: left;
+}
+.signup-info h2 {
+  margin: 5px 0;
+}
+.signup-info p {
+  margin: 0;
+}
+
+.inputs {
+  display: flex;
+  justify-content: space-between;
+}
+.name {
+  width: 49%;
+  height: 50px;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 0.25px solid rgb(202, 199, 192);
+  font-size: 1.25rem;
+  margin-bottom: 3px;
+}
+.spcInputs input {
+  width: 100%;
+  height: 50px;
+  padding: 0.5rem;
+  margin: 8px 0rem;
+  border-radius: 6px;
+  border: 0.25px solid rgb(202, 199, 192);
+  font-size: 1.25rem;
+}
+
+.box {
+  width: 20%;
+  background-color: red;
+}
+
+.date {
+  width: 100%;
+  height: 30px;
+  margin: 4px;
+}
+
+@media (max-width: 900px) {
+  .container {
+    display: block;
+    height: fit-content;
+    margin: 0;
+  }
+  .info {
+    width: 100%;
     text-align: center;
-}
-.form input{
+    font-size: small;
+  }
+  .form {
     width: 100%;
-    height: 50px    ;
-    padding: 0.5rem;
-    margin: 8px 0rem;
-    border-radius: 6px;
-    border: 0.25px solid rgb(202, 199, 192);
-    font-size: 1.25rem;
+  }
 }
-.form button{
-    background-color:rgba(10, 67, 192, 0.89);
-    color: white;
-    border-radius: 6px;
+
+@media (max-width: 680px) {
+  .container {
     width: 100%;
-    margin: 8px 0;
-    height: 40px;
-    font-size: 1.5rem;
-    padding: 10px;
-    font-weight: bold;
-    border: none;
-}
-
-.form button:hover{
-    cursor: pointer;
-}
-
-
-.form .line{
+    display: block;
+    height: fit-content;
+    margin: 0;
+    padding: 12px;
+  }
+  .info {
     width: 100%;
-    border-bottom: 1px solid rgb(209, 205, 205);
-    margin: 20px 0;
-    display: flex ; 
+    text-align: center;
+  }
+  .info p {
+    font-size: 19px;
+  }
+  .info h1 {
+    font-size: 50px;
+  }
+  .form {
+    width: 100%;
+  }
 }
+@media (max-width: 250px) {
+    .container {
+      width: 100%;
+      display: block;
+      height: fit-content;
+      margin: 0;
+      padding: 12px;
+    }
+    .info {
+      width: 100%;
+      text-align: center;
+    }
+    .info p {
+      font-size: 19px;
+    }
+    .info h1 {
+      font-size: 20px;
+    }
+    .form {
+        min-width: 0px;
+      width: 100%;
+    }
+  }
 
-.form button.newAcc{
-    width: 60%;
-    font-size: 20px;
-    background-color: rgb(86, 161, 16);
+button:disabled,
+button:hover:disabled,
+button:active:disabled {
+  background-color: #ccc;
+  color: #979797;
+  border-color: #ccc;
+  cursor: not-allowed;
 }
