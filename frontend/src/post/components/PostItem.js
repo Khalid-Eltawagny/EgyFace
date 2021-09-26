@@ -28,6 +28,9 @@ const PostItem = (props) => {
 
         <div className={classes.post}>
           <p>{props.post}</p>
+          <div className={classes.postImage}>
+            {props.postImage && <img src={props.postImage} />}
+          </div>
         </div>
         <div className={classes.line}></div>
         <div className={classes.actions}>

@@ -9,6 +9,8 @@ const DUMMY_POSTS = [
     post: "Ahly Ahly Ahly!!!",
     likes: 5,
     comments: 12,
+    postImage:
+      "https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
     name: "khalid",
   },
   {
@@ -37,6 +39,7 @@ const PostsList = (props) => {
         likes={post.likes}
         post={post.post}
         comments={post.comments}
+        postImage={post.postImage}
       />
     );
   });
