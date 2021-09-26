@@ -24,6 +24,7 @@ const PostItem = (props) => {
             <h3>{props.name}</h3>
           </div>
         </div>
+        <h5>{props.date}</h5>
         <div className={classes.line}></div>
 
         <div className={classes.post}>

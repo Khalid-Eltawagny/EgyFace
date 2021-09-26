@@ -12,6 +12,7 @@ const DUMMY_POSTS = [
     postImage:
       "https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
     name: "khalid",
+    date:"1 hour ago"
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ const DUMMY_POSTS = [
     likes: 100,
     comments: 12,
     name: "Ahmed bahgat",
+    date:"3 hours ago"
   },
   {
     id: 3,
@@ -26,6 +28,7 @@ const DUMMY_POSTS = [
     likes: 0,
     comments: 120,
     name: "khalid",
+    date:"Just now"
   },
 ];
 
@@ -40,6 +43,7 @@ const PostsList = (props) => {
         post={post.post}
         comments={post.comments}
         postImage={post.postImage}
+        date={post.date}
       />
     );
   });

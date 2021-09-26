@@ -59,5 +59,10 @@ p{
 
 .postImage img{
     width: 80%;
-    height: fit-content;
+    object-fit: cover;
+}
+
+h5{
+    margin: 4px;
+    font-weight: 100;
 }
