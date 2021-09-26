@@ -1,0 +1,52 @@
+.header{
+    display: flex;
+    justify-content: flex-start;
+    width: 50%;
+}
+.avt {
+    width: 20%;
+    margin-right: 20px;
+}
+.item{
+    width: 70%;
+    list-style: none;
+    margin: 20px auto;
+}
+.line{
+    width: 100%;
+    margin: 8px 0 ;
+    border-bottom: 1px solid rgb(221, 216, 216);
+}
+
+.actions{
+    display: flex;
+    width: 100%;
+    border: 1px solid rgb(204, 203, 198);
+    border-radius: 6px ;
+    padding: 10px;
+    align-items: center;
+}
+
+.actions button {
+    margin: 0 10px;
+    border: 1px solid rgb(185, 185, 190);
+    border-radius: 6px;
+    padding: 5px;
+    font-weight: bold;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+h4{
+    margin: 0;
+    display: inline;
+}
+.liked{
+    background-color: blue;
+}
+p{
+    font-size: 20px;
+    font-weight: 300;
+}

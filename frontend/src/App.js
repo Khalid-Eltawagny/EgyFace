@@ -1,7 +1,8 @@
 import React from "react";
 import { Fragment } from "react";
 
-import Auth from "./pages/Auth";
+import Auth from "../src/user/pages/Auth"; 
+import PostsList from "./post/components/PostsList";
 
 import {
   BrowserRouter as Router,
@@ -13,7 +14,7 @@ import {
 const App = () => {
   return (
     <Fragment>
-      <Auth />
+      <PostsList />
     </Fragment>
   );
 };

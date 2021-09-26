@@ -1,16 +1,17 @@
 import React from "react";
 import { Fragment } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; 
 
-import Input from "../shared/components/FormElements/Input";
-import Card from "../shared/components/UIElements/Card";
-import { useForm } from "../shared/hooks/form-hook";
+
+import Input from "../../shared/components/FormElements/Input";
+import Card from "../../shared/components/UIElements/Card";
+import { useForm } from "../../shared/hooks/form-hook";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
-} from "../shared/util/validators";
+} from "../../shared/util/validators";
 
 import classes from "./Auth.module.css";
 const Auth = () => {
