@@ -1,8 +1,10 @@
 import React from "react";
 import { Fragment } from "react";
 
-import Auth from "../src/user/pages/Auth"; 
+import Auth from "../src/user/pages/Auth";
 import PostsList from "./post/components/PostsList";
+import CommentsList from "./post/components/CommentsList";
+import FullPost from "../src/post/pages/FullPost";
 
 import {
   BrowserRouter as Router,
@@ -14,7 +16,19 @@ import {
 const App = () => {
   return (
     <Fragment>
-      <PostsList />
+      <Switch>
+        <Route path="/home">
+          <PostsList />
+          <CommentsList />
+        </Route>
+        <Route path={`/post/:id`} exact>
+          <FullPost />
+        </Route>
+        <Route path="*">
+          <Redirect to="/home" />
+        </Route>
+      </Switch>
+      {/* <CommentsList /> */}
     </Fragment>
   );
 };

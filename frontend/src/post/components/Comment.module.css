@@ -3,7 +3,6 @@
     justify-content: flex-start;
     width: 50%;
 }
-
 .avt {
     width: 20%;
     margin-right: 20px;
@@ -11,7 +10,7 @@
 .item{
     width: 70%;
     list-style: none;
-    margin: 20px auto;
+    margin: 0 auto;
 }
 .line{
     width: 100%;
@@ -67,16 +66,15 @@ h5{
     margin: 4px;
     font-weight: 100;
 }
-
-.link{
-    text-decoration: none;
-    color: black;
+p{
+    margin: 0;
 }
 
-.card:hover{
-    background-color: rgb(177, 173, 173);
-}
-
-h5 {
-    text-align: left;
+.comment {
+    border: 1px solid black;
+    background-color: rgb(99, 126, 185);
+    color: white;
+    border: 1px solid rgb(110, 109, 109);
+    border-radius: 0px;
+    margin-bottom: 4px;
 }

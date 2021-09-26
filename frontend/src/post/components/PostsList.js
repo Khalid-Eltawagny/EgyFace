@@ -44,6 +44,7 @@ const PostsList = (props) => {
         comments={post.comments}
         postImage={post.postImage}
         date={post.date}
+        full={false}
       />
     );
   });
