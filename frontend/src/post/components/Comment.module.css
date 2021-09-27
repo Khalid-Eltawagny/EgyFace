@@ -71,9 +71,9 @@ p{
 }
 
 .comment {
-    background-color: rgb(99, 126, 185);
+    background-color: rgb(5, 151, 219);
     color: white;
-    border: 1px solid rgb(110, 109, 109);
-    border-radius: 0px;
+    border: 1px solid blue ; 
+    border-radius: 6px;
     margin-bottom: 4px;
 }

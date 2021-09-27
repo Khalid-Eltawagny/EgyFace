@@ -53,7 +53,7 @@ const FullPost = (props) => {
           date={post.date}
           full={true}
         />
-        <h1>Comments</h1>
+        <h1 style={{color:"white"}}>Comments</h1>
       </ul>
       <CommentsList />
     </Fragment>

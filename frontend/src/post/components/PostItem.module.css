@@ -103,3 +103,25 @@ h5{
 h5 {
     text-align: left;
 }
+
+.comment{
+    height: 35px;
+    width: 100%;
+    max-height: fit-content;
+    overflow: auto ; 
+}
+
+.commentActions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.commentArea{
+    width: 90%;
+}
+
+.commentButton{
+    height: 30px;
+    margin: 5px;
+    font-weight: 900;
+}

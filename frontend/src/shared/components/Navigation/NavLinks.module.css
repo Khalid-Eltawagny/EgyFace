@@ -23,3 +23,8 @@
     color: white ; 
     font-weight: 600;
 }
+
+.selected {
+    font-weight: 900;
+    border-bottom: 3px solid rgb(255, 255, 255);
+}

@@ -6,9 +6,22 @@ import Card from "../../shared/components/UIElements/Card";
 import Avatar from "../../shared/components/UIElements/Avatar";
 
 import { Link } from "react-router-dom";
+import Input from "../../shared/components/FormElements/Input";
+import { useForm } from "../../shared/hooks/form-hook";
+import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 
 const PostItem = (props) => {
   const [isLiked, setIsLiked] = useState(false);
+
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      comment: {
+        value: "",
+        isValid: false,
+      },
+    },
+    false
+  );
 
   const flipLikeState = () => {
     setIsLiked((prev) => !prev);
@@ -79,6 +92,21 @@ const PostItem = (props) => {
           <button>
             <h4> {props.comments} |</h4> Comments
           </button>
+        </div>
+        <div className={classes.commentActions}>
+          <div className={classes.commentArea}>
+            <Input
+              element="textArea"
+              id="comment"
+              type="text"
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter a valid comment"
+              placeholder="Type your comment"
+              onInput={inputHandler}
+              className={classes.comment}
+            />
+          </div>
+          <button className={classes.commentButton}>comment</button>
         </div>
       </Card>
     </li>

@@ -1,9 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
 
+import { AuthContext } from "../../context/auth-context";
 import classes from "./NavLinks.module.css";
 
 const NavLinks = (props) => {
+
+  const ctx = useContext(AuthContext) ; 
+
   return (
     <ul className={classes.links}>
       <li>
@@ -13,19 +18,19 @@ const NavLinks = (props) => {
         <button className={classes.button__}>Notifications</button>
       </li>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/home" activeClassName={classes.selected} exact>Home</NavLink>
       </li>
       <li>
-        <NavLink to="/profile">Profile</NavLink>
+        <NavLink to="/profile"  activeClassName={classes.selected} exact>Profile</NavLink>
       </li>
       <li>
         <span style={{ marginRight: "5px", color: "red", fontWeight: "900" }}>
           12
         </span>
-        <NavLink to="/messanger">Messages</NavLink>
+        <NavLink activeClassName={classes.selected} to="/messanger" exact>Messages</NavLink>
       </li>
       <li>
-        <NavLink to="/settings">Settings</NavLink>
+        <NavLink activeClassName={classes.selected} to="/settings" exact>Settings</NavLink>
       </li>
       <li>
         <button className={classes.button__}>Log out</button>

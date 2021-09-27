@@ -80,7 +80,7 @@ const Auth = () => {
         </div>
         <div className={classes.form}>
           {!isLoginMode && (
-            <Card>
+            <Card className={classes.authCard}>
               <div className={classes["signup-info"]}>
                 <h2>Sign up</h2>
                 <p>it's quick and easy.</p>

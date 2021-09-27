@@ -6,6 +6,9 @@ import PostsList from "./post/components/PostsList";
 import CommentsList from "./post/components/CommentsList";
 import FullPost from "../src/post/pages/FullPost";
 import Navigation from "./shared/components/Navigation/Navigation";
+import Layout from "./shared/components/UIElements/Layout";
+
+import NewPost from "./post/components/NewPost";
 
 import {
   BrowserRouter as Router,
@@ -18,19 +21,24 @@ const App = () => {
   return (
     <Fragment>
       <Switch>
+        <Route path="/" exact>
+          <Auth />
+        </Route>
         <Route path="/home">
-          <Navigation />
-          <PostsList />
-          <CommentsList />
+          <Layout>
+            <NewPost />
+            <PostsList />
+          </Layout>
         </Route>
         <Route path={`/post/:id`} exact>
-          <FullPost />
+          <Layout>
+            <FullPost />
+          </Layout>
         </Route>
         <Route path="*">
           <Redirect to="/home" />
         </Route>
       </Switch>
-      {/* <CommentsList /> */}
     </Fragment>
   );
 };

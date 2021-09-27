@@ -4,10 +4,21 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import "./index.css";
 import App from "./App";
+import { AuthContext } from "./shared/context/auth-context";
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <AuthContext.Provider
+    value={{
+      isLoggedIn: false,
+      userId: undefined,
+      token: undefined,
+      login: () => {},
+      logout: () => {},
+    }}
+  >
+    <Router>
+      <App />
+    </Router>
+  </AuthContext.Provider>,
   document.getElementById("root")
 );
