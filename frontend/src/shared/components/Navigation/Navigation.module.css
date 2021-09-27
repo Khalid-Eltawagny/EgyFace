@@ -1,0 +1,27 @@
+.container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+    background-color: rgb(24, 24, 228);
+}
+
+.logo{
+    width: 50%;
+    display: flex;
+    background-color: transparent;
+    padding-left: 5px;
+}
+.logo a {
+    text-decoration: none;
+    color: white;
+}
+
+.linksContainer{
+    width: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+}
+

@@ -5,6 +5,7 @@ import Auth from "../src/user/pages/Auth";
 import PostsList from "./post/components/PostsList";
 import CommentsList from "./post/components/CommentsList";
 import FullPost from "../src/post/pages/FullPost";
+import Navigation from "./shared/components/Navigation/Navigation";
 
 import {
   BrowserRouter as Router,
@@ -18,6 +19,7 @@ const App = () => {
     <Fragment>
       <Switch>
         <Route path="/home">
+          <Navigation />
           <PostsList />
           <CommentsList />
         </Route>

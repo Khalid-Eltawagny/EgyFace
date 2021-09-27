@@ -1,0 +1,25 @@
+.links li {
+    list-style: none;
+}
+.links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+
+.links {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+.button__{
+    font-family: inherit;
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    margin-right: 0;
+    padding:0;
+    color: white ; 
+    font-weight: 600;
+}
