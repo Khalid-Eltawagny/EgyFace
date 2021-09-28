@@ -38,12 +38,15 @@ const DUMMY_REQUESTS = [
 ];
 
 const FriendRequestsList = () => {
-  const items = DUMMY_REQUESTS.map((req) => {
-    return <FriendRequestItem name={req.name} image={req.image} />;
+  const items = DUMMY_REQUESTS.map((req, indx) => {
+    return <FriendRequestItem id={indx} name={req.name} image={req.image} />;
   });
 
   return (
-      <Card>{items}</Card>
+    <Card>
+      <h2>Friend Requests :</h2>
+      {items}
+    </Card>
   );
 };
 

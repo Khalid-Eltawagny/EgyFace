@@ -18,9 +18,6 @@ const Profile = () => {
       </div>
       <div className={classes.border}></div>
       <div className={classes.main}>
-        <ul>
-          <NewPost />
-        </ul>
         <PostsList />
       </div>
     </div>

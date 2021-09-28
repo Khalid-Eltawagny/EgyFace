@@ -36,7 +36,9 @@ const App = () => {
           </Layout>
         </Route>
         <Route path="/profile/friends">
-          <Friends />
+          <Layout>
+            <Friends />
+          </Layout>
         </Route>
         <Route path="/profile/:id" exact>
           <Layout>

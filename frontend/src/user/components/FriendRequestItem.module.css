@@ -13,6 +13,20 @@
   margin: 0;
 }
 
+.info{
+  width: 70%;
+}
+
+.info:hover{
+  background-color: rgb(178, 180, 180);
+}
+.info a {
+  display: flex;
+  justify-content: space-around;
+  text-decoration: none;
+  color: black;
+}
+
 .photo {
   width: 10%;
 }
