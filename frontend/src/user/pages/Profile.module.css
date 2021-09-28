@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+.info{
+    background-color: #ffffff;
+    width: 50%;
+    height: 70vh;
+    width: 30%;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgb(20, 20, 20);
+}
+.info h1 {
+    padding: 4px;
+    text-align: center;
+    border: 3px solid rgb(88, 86, 86);
+}
+
+.info img {
+    border: 1px solid  black;
+    width: 100%;
+    object-fit: cover ;
+}
+.main {
+    border-left: 6px solid white;
+    width: 65%;
+}
+
+h2 {
+    display: inline;
+}
+
+.friends{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

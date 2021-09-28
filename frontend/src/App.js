@@ -7,6 +7,9 @@ import CommentsList from "./post/components/CommentsList";
 import FullPost from "../src/post/pages/FullPost";
 import Navigation from "./shared/components/Navigation/Navigation";
 import Layout from "./shared/components/UIElements/Layout";
+import Profile from "./user/pages/Profile";
+
+import Friends from "./user/pages/Friends";
 
 import NewPost from "./post/components/NewPost";
 
@@ -24,10 +27,20 @@ const App = () => {
         <Route path="/" exact>
           <Auth />
         </Route>
-        <Route path="/home">
+        <Route path="/home" exact>
           <Layout>
-            <NewPost />
+            <ul>
+              <NewPost />
+            </ul>
             <PostsList />
+          </Layout>
+        </Route>
+        <Route path="/profile/friends">
+          <Friends />
+        </Route>
+        <Route path="/profile/:id" exact>
+          <Layout>
+            <Profile />
           </Layout>
         </Route>
         <Route path={`/post/:id`} exact>

@@ -12,16 +12,10 @@ const NavLinks = (props) => {
   return (
     <ul className={classes.links}>
       <li>
-        <span style={{ marginRight: "5px", color: "red", fontWeight: "900" }}>
-          12
-        </span>
-        <button className={classes.button__}>Notifications</button>
-      </li>
-      <li>
         <NavLink to="/home" activeClassName={classes.selected} exact>Home</NavLink>
       </li>
       <li>
-        <NavLink to="/profile"  activeClassName={classes.selected} exact>Profile</NavLink>
+        <NavLink to="/profile/1"  activeClassName={classes.selected} exact>Profile</NavLink>
       </li>
       <li>
         <span style={{ marginRight: "5px", color: "red", fontWeight: "900" }}>
@@ -30,7 +24,7 @@ const NavLinks = (props) => {
         <NavLink activeClassName={classes.selected} to="/messanger" exact>Messages</NavLink>
       </li>
       <li>
-        <NavLink activeClassName={classes.selected} to="/settings" exact>Settings</NavLink>
+        <NavLink activeClassName={classes.selected} to="/profile/friends" exact>Friends</NavLink>
       </li>
       <li>
         <button className={classes.button__}>Log out</button>

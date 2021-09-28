@@ -51,6 +51,7 @@ const FullPost = (props) => {
           comments={post.comments}
           name={post.name}
           date={post.date}
+          postImage={post.postImage}
           full={true}
         />
         <h1 style={{color:"white"}}>Comments</h1>
