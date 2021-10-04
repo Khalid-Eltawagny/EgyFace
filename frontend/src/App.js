@@ -12,7 +12,8 @@ import Profile from "./user/pages/Profile";
 import Friends from "./user/pages/Friends";
 
 import NewPost from "./post/components/NewPost";
-
+import { AuthContext } from "./shared/context/auth-context";
+import useAuth from "./shared/hooks/use-auth";
 import {
   BrowserRouter as Router,
   Route,
@@ -21,12 +22,21 @@ import {
 } from "react-router-dom";
 
 const App = () => {
-  return (
-    <Fragment>
+  const { token, login, logout, userId } = useAuth();
+  let routes;
+
+  if (!token) {
+    routes = (
       <Switch>
-        <Route path="/" exact>
+        <Route path={"/"} exact>
           <Auth />
         </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
+  } else {
+    routes = (
+      <Switch>
         <Route path="/home" exact>
           <Layout>
             <ul>
@@ -35,12 +45,12 @@ const App = () => {
             <PostsList />
           </Layout>
         </Route>
-        <Route path="/profile/friends">
+        <Route path={"/profile/friends"} exact>
           <Layout>
             <Friends />
           </Layout>
         </Route>
-        <Route path="/profile/:id" exact>
+        <Route path={"/profile/:id"}>
           <Layout>
             <Profile />
           </Layout>
@@ -50,11 +60,23 @@ const App = () => {
             <FullPost />
           </Layout>
         </Route>
-        <Route path="*">
-          <Redirect to="/home" />
-        </Route>
+        <Redirect to="/home"></Redirect>
       </Switch>
-    </Fragment>
+    );
+  }
+  console.log(routes);
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: false,
+        userId: userId,
+        token: token,
+        login: login,
+        logout: logout,
+      }}
+    >
+      <Router>{routes}</Router>
+    </AuthContext.Provider>
   );
 };
 

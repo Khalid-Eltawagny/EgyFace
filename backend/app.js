@@ -1,15 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const mysql = require("mysql");
 const fs = require("fs");
-const path = require("path");
 const HttpError = require("./models/http-error");
+const userRoutes = require("./routes/user-routes");
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.use("/uploads/images", express.static(path.join("uploads", "images")));
+// app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -21,12 +20,10 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
+app.use("/api/users", userRoutes);
 
 app.use((req, res, next) => {
-  const error = new HttpError("Could not find this route.", 404);
-  throw error;
+  throw new HttpError("Could not find this route.", 404);
 });
 
 app.use((error, req, res, next) => {
@@ -37,4 +34,4 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred!" });
 });
 
-app.listen(5000) ; 
+app.listen(5000);

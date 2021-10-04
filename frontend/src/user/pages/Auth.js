@@ -1,9 +1,10 @@
 import React from "react";
 import { Fragment } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 
-
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import Input from "../../shared/components/FormElements/Input";
 import Card from "../../shared/components/UIElements/Card";
 import { useForm } from "../../shared/hooks/form-hook";
@@ -12,11 +13,17 @@ import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
+import { useHttpClient } from "../../shared/hooks/use-http";
+import { useContext } from "react";
+import { AuthContext } from "../../shared/context/auth-context";
+import { useHistory } from "react-router";
 
 import classes from "./Auth.module.css";
 const Auth = () => {
+  const history = useHistory();
+  const ctx = useContext(AuthContext) ; 
   const [isLoginMode, setIsLogInMode] = useState(true);
-
+  const { sendRequest, isLoading, error, clearError } = useHttpClient();
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
@@ -34,7 +41,6 @@ const Auth = () => {
   const LoginHandler = () => {
     setFormData({
       ...formState.inputs,
-      dateOfBirth: undefined,
       name: undefined,
     });
     setIsLogInMode(true);
@@ -46,27 +52,50 @@ const Auth = () => {
         value: "",
         isValid: false,
       },
-      dateOfBirth: {
-        value: "",
-        isValid: false,
-      },
     });
     setIsLogInMode(false);
   };
 
-  const loginSubmitHandler = (event) => {
+  const loginSubmitHandler = async(event) => {
     event.preventDefault();
-    console.log(formState.inputs);
+    const user = {
+      email: formState.inputs.email.value,
+      password: formState.inputs.password.value,
+    };
+    try {
+      clearError();
+      const response = await sendRequest(
+        "http://localhost:5000/api/users/signin",
+        "POST",
+        JSON.stringify(user),
+        { "Content-Type": "application/json" }
+      );
+      clearError();
+      ctx.login(response.userId , response.token) ; 
+      history.push("/home") ; 
+    } catch (error) {}
+
   };
 
-  const signUpSubmitHandler = (event) => {
+  const signUpSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState);
-  };
-
-  const checkDate = (event) => {
-    formState.inputs.dateOfBirth.value = event.target.value;
-    formState.inputs.dateOfBirth.isValid = event.target.value ? true : false;
+    const user = {
+      name: formState.inputs.name.value,
+      email: formState.inputs.email.value,
+      password: formState.inputs.password.value,
+    };
+    try {
+      clearError();
+      const response = await sendRequest(
+        "http://localhost:5000/api/users/signup",
+        "POST",
+        JSON.stringify(user),
+        { "Content-Type": "application/json" }
+      );
+      clearError();
+      ctx.login(response.userId , response.token) ; 
+      history.push("/home") ;
+    } catch (error) {}
   };
 
   return (
@@ -79,6 +108,8 @@ const Auth = () => {
           </p>
         </div>
         <div className={classes.form}>
+          {isLoading && <LoadingSpinner />}
+          {error && <h1 className={classes.warn}> {error} </h1>}
           {!isLoginMode && (
             <Card className={classes.authCard}>
               <div className={classes["signup-info"]}>
@@ -114,16 +145,11 @@ const Auth = () => {
                   placeholder="Enter your password."
                   onInput={inputHandler}
                 />
-                <input
-                  type="date"
-                  className={classes.date}
-                  style={{ width: "100%" }}
-                  onChange={checkDate}
-                />
                 <div className={classes.line}></div>
                 <button
                   type="submit"
                   disabled={!formState.isValid}
+                  className={formState.isValid ? classes.newAcc2 : classes.diable}
                 >
                   Create new account
                 </button>

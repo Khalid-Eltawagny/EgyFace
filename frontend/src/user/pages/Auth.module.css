@@ -5,7 +5,6 @@
   display: flex;
   justify-content: space-between;
   background-color: rgb(215, 221, 226);
-  height: 100vh;
 }
 
 .info {
@@ -26,7 +25,6 @@
 
 .form {
   min-width: 200px;
-  height: fit-content;
   width: 45%;
   text-align: center;
 }
@@ -72,6 +70,16 @@
   margin: auto;
 }
 
+
+.form button.newAcc2 {
+  width: 100%;
+  font-size: 16px;
+  color: white;
+  padding: 5px;
+  background-color: rgb(86, 161, 16);
+  display: block;
+  margin: auto;
+}
 .signup-info {
   text-align: left;
 }
@@ -154,33 +162,43 @@
     width: 100%;
   }
 }
+.warn {
+  color: rgb(255, 0, 0);
+}
 @media (max-width: 250px) {
-    .container {
-      width: 100%;
-      display: block;
-      height: fit-content;
-      margin: 0;
-      padding: 12px;
-    }
-    .info {
-      width: 100%;
-      text-align: center;
-    }
-    .info p {
-      font-size: 19px;
-    }
-    .info h1 {
-      font-size: 20px;
-    }
-    .form {
-        min-width: 0px;
-      width: 100%;
-    }
+  .container {
+    width: 100%;
+    display: block;
+    height: fit-content;
+    margin: 0;
+    padding: 12px;
   }
+  .info {
+    width: 100%;
+    text-align: center;
+  }
+  .info p {
+    font-size: 19px;
+  }
+  .info h1 {
+    font-size: 20px;
+  }
+  .form {
+    min-width: 0px;
+    width: 100%;
+  }
+}
 
 button:disabled,
 button:hover:disabled,
 button:active:disabled {
+  background-color: #ccc;
+  color: #979797;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+.disable {
   background-color: #ccc;
   color: #979797;
   border-color: #ccc;
