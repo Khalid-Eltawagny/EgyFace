@@ -34,12 +34,16 @@ const Profile = () => {
         const response = await sendRequest(
           `http://localhost:5000/api/users/${profileId}/posts`
         );
-        setPosts(response) ; 
+        setPosts(response);
       } catch (error) {}
     };
     getInfo();
+    getPosts();
   }, [profileId]);
-
+  if (info) {
+    console.log(info.userId.toString() ,profileId) ; 
+    console.log(info.userId == profileId);
+  }
   return (
     <div className={classes.container}>
       {info && !isLoading && (
@@ -50,7 +54,7 @@ const Profile = () => {
             <h2>Friends </h2>
             <Link to="/profile/friends">View all friends</Link>
           </div>
-          {ctx.userId !== profileId && (
+          {!isLoading && info && info.userId.toString() !== ctx.userId.toString() && (
             <button className={classes.btn}>Add friend</button>
           )}
         </div>
@@ -58,8 +62,11 @@ const Profile = () => {
       {isLoading && <LoadingSpinner />}
       <div className={classes.border}></div>
       <div className={classes.main}>
-        {posts && posts.length > 0 && <PostsList />}
-        {!posts && <p>No posts yet.</p>}
+        {posts && posts.length > 0 && !isLoading && <PostsList posts={posts} />}
+        {((!posts && !isLoading) || (posts && posts.length === 0)) && (
+          <p style={{ color: "white" }}>No posts yet.</p>
+        )}
+        {isLoading && <LoadingSpinner />}
       </div>
     </div>
   );

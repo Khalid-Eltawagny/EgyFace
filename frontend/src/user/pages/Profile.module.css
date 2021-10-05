@@ -4,6 +4,7 @@
     padding: 0 20px;
 }
 .info{
+    display: fixed;
     background-color: #ffffff;
     width: 50%;
     height:75vh;
@@ -31,7 +32,6 @@
     align-items: center;
 }
 .main p{
-    color: white;
     font-size: 2rem;
 }
 h2 {

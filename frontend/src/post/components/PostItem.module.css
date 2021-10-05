@@ -129,8 +129,13 @@ h5 {
 
 .post {
     padding: 20px;
+    color: black;
 }
 
 .post p{
     margin-bottom: 20px;
+    color: black;
+}
+p{
+    color: black;
 }

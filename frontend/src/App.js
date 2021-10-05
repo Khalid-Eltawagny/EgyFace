@@ -24,17 +24,13 @@ import {
 const App = () => {
   const { token, login, logout, userId } = useAuth();
   let routes;
-
-  if (!token) {
-    routes = (
-      <Switch>
-        <Route path={"/"} exact>
-          <Auth />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
-    );
-  } else {
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  if (
+    (storedData &&
+      storedData.token &&
+      new Date(storedData.expiration) > new Date()) ||
+    token
+  ) {
     routes = (
       <Switch>
         <Route path="/home" exact>
@@ -42,7 +38,7 @@ const App = () => {
             <ul>
               <NewPost />
             </ul>
-            <PostsList />
+            {/* <PostsList /> */}
           </Layout>
         </Route>
         <Route path={"/profile/friends"} exact>
@@ -63,8 +59,17 @@ const App = () => {
         <Redirect to="/home"></Redirect>
       </Switch>
     );
+  } else {
+    routes = (
+      <Switch>
+        <Route path={"/"} exact>
+          <Auth />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
   }
-  console.log(routes);
+
   return (
     <AuthContext.Provider
       value={{

@@ -38,7 +38,9 @@ const NavLinks = (props) => {
         </NavLink>
       </li>
       <li>
-        <button className={classes.button__}>Log out</button>
+        <button className={classes.button__} onClick={ctx.logout}>
+          Log out
+        </button>
       </li>
     </ul>
   );

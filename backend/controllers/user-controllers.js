@@ -158,15 +158,71 @@ const signIn = (req, res, next) => {
 
 const getPosts = async (req, res, next) => {
   const userId = req.params.id;
-  const query = `SELECT * FROM posts where user_id = ${userId}`;
-  con.query(query, (err, result) => {
+  const query = `SELECT * FROM users WHERE id = ${userId}`;
+  con.query(query, async (err, result) => {
     if (err) {
       return next(new HttpError("Something went wrong,please try again.", 500));
     }
-    const posts = result.map((post) => {
-      return { postId: post.id, ...post };
+    if (result.length === 0) {
+      return next(new HttpError("No user found,please try again.", 500));
+    }
+    const name = result[0].name;
+    const query = `SELECT * FROM posts where user_id = ${userId}`;
+    con.query(query, async (err, result) => {
+      if (err) {
+        return next(
+          new HttpError("Something went wrong,please try again.", 500)
+        );
+      }
+
+      const promises1 = result.map((post) => {
+        return new Promise((resolve, reject) => {
+          const post_id = post.id;
+          const query = `SELECT COUNT(*) as likes FROM likes WHERE post_id = ${post_id} `;
+          con.query(query, (err, result) => {
+            if (err) {
+              return reject(
+                next(
+                  new HttpError("Something went wrong,please try again.", 500)
+                )
+              );
+            }
+            resolve(result);
+          });
+        });
+      });
+      const promises2 = result.map((post) => {
+        return new Promise((resolve, reject) => {
+          const post_id = post.id;
+          const query = `SELECT COUNT(*) as comments FROM comments WHERE post_id = ${post_id} `;
+          con.query(query, (err, result) => {
+            if (err) {
+              return reject(
+                next(
+                  new HttpError("Something went wrong,please try again.", 500)
+                )
+              );
+            }
+            resolve(result);
+          });
+        });
+      });
+
+      const likes = await Promise.all(promises1);
+      const comments = await Promise.all(promises2);
+
+      const posts = result.map((post, i) => {
+        return {
+          postId: post.id,
+          ...post,
+          likes: likes[i][0].likes,
+          comments: comments[i][0].comments,
+          name:name
+        };
+      });
+      console.log(posts) ; 
+      res.status(200).json(posts);
     });
-    res.status(200).json(posts);
   });
 };
 
