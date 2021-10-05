@@ -3,6 +3,9 @@
     justify-content: flex-start;
     width: 50%;
 }
+ul{
+    padding: 0;
+}
 
 .avt {
     width: 20%;

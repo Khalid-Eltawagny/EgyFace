@@ -27,7 +27,6 @@ const PostItem = (props) => {
     setIsLiked((prev) => !prev);
   };
 
-  console.log(props);
 
   return (
     <li className={classes.item}>

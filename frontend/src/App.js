@@ -14,6 +14,7 @@ import Friends from "./user/pages/Friends";
 import NewPost from "./post/components/NewPost";
 import { AuthContext } from "./shared/context/auth-context";
 import useAuth from "./shared/hooks/use-auth";
+import Home from "./user/pages/Home";
 import {
   BrowserRouter as Router,
   Route,
@@ -35,10 +36,7 @@ const App = () => {
       <Switch>
         <Route path="/home" exact>
           <Layout>
-            <ul>
-              <NewPost />
-            </ul>
-            {/* <PostsList /> */}
+            <Home />
           </Layout>
         </Route>
         <Route path={"/profile/friends"} exact>

@@ -1,0 +1,18 @@
+.container{
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.postsContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.postsContainer h1 {
+    margin-top: 50px;
+    color: white;
+}

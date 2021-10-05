@@ -34,6 +34,7 @@ const Profile = () => {
         const response = await sendRequest(
           `http://localhost:5000/api/users/${profileId}/posts`
         );
+        response.reverse();
         setPosts(response);
       } catch (error) {}
     };
@@ -41,7 +42,7 @@ const Profile = () => {
     getPosts();
   }, [profileId]);
   if (info) {
-    console.log(info.userId.toString() ,profileId) ; 
+    console.log(info.userId.toString(), profileId);
     console.log(info.userId == profileId);
   }
   return (
@@ -54,9 +55,11 @@ const Profile = () => {
             <h2>Friends </h2>
             <Link to="/profile/friends">View all friends</Link>
           </div>
-          {!isLoading && info && info.userId.toString() !== ctx.userId.toString() && (
-            <button className={classes.btn}>Add friend</button>
-          )}
+          {!isLoading &&
+            info &&
+            info.userId.toString() !== ctx.userId.toString() && (
+              <button className={classes.btn}>Add friend</button>
+            )}
         </div>
       )}
       {isLoading && <LoadingSpinner />}
