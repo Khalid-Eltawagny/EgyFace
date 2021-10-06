@@ -20,8 +20,8 @@ const DUMMY_FRIENDS = [
   },
 ];
 
-const FriendsMenu = () => {
-  const friends = DUMMY_FRIENDS.map((friend) => (
+const FriendsMenu = (props) => {
+  const friends = props.friends.map((friend) => (
     <FriendItem id={friend.id} name={friend.name} image={friend.image} />
   ));
   return <Card>

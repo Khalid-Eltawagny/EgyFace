@@ -37,8 +37,8 @@ const DUMMY_REQUESTS = [
   },
 ];
 
-const FriendRequestsList = () => {
-  const items = DUMMY_REQUESTS.map((req, indx) => {
+const FriendRequestsList = (props) => {
+  const items = props.requests.map((req, indx) => {
     return <FriendRequestItem id={indx} name={req.name} image={req.image} />;
   });
 

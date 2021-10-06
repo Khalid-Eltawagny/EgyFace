@@ -12,25 +12,106 @@ import { useContext } from "react";
 
 const Friends = () => {
   const ctx = useContext(AuthContext);
+  const [friendsIds, setFriendsIds] = useState(null);
+  const [requestsIds, setRequestsIds] = useState(null);
   const [friends, setFriends] = useState(null);
   const [requests, setRequests] = useState(null);
 
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
+  // getting friends ids
   useEffect(() => {
     const getFriends = async () => {
       try {
         const response = await sendRequest(
           `http://localHost:5000/api/users/${ctx.userId}/friends`
         );
-        setFriends(response);
+        setFriendsIds(response);
+        console.log(response);
       } catch (error) {}
     };
-  }, [friends, requests, ctx]);
+    if (ctx.userId) {
+      getFriends();
+    }
+  }, [ctx]);
+
+  //getting friend requets ids
+  useEffect(() => {
+    console.log("inside");
+    const getRequets = async () => {
+      try {
+        const response = await sendRequest(
+          `http://localHost:5000/api/users/${ctx.userId}/requests`
+        );
+        setRequestsIds(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (ctx.userId) {
+      getRequets();
+    }
+  }, [ctx]);
+
+  // now we have friends Ids , get information about them .
+  useEffect(() => {
+    const getFriends = async () => {
+      if (friendsIds) {
+        const promises = friendsIds.map((id) => {
+          return new Promise(async (resolve, reject) => {
+            try {
+              const info = await sendRequest(
+                `http://localhost:5000/api/users/${id}/info`
+              );
+              return resolve(info);
+            } catch (error) {
+              return reject(error);
+            }
+          });
+        });
+        const info = await Promise.all(promises);
+        setFriends(info);
+        console.log(info);
+      }
+    };
+    getFriends();
+  }, [friendsIds]);
+
+  useEffect(() => {
+    const getRequests = async () => {
+      if (requestsIds) {
+        const promises = requestsIds.map((id) => {
+          return new Promise(async (resolve, reject) => {
+            try {
+              const info = await sendRequest(
+                `http://localhost:5000/api/users/${id}/info`
+              );
+              return resolve(info);
+            } catch (error) {
+              return reject(error);
+            }
+          });
+        });
+        const info = await Promise.all(promises);
+        setRequests(info);
+        console.log(info);
+      }
+    };
+    getRequests();
+  }, [requestsIds]);
+
   return (
     <Fragment>
-      <FriendRequestsList />
-      <FriendsMenu />
+      {isLoading && <LoadingSpinner />}
+      {!isLoading && requests && requests.length > 0 && (
+        <FriendRequestsList requests={requests} />
+      )}
+      {!isLoading && requests && requests.length === 0 && <h2>No requests.</h2>}
+      {!isLoading && friends && friends.length === 0 && <h2>No friends.</h2>}
+
+      {!isLoading && friends && friends.length > 0 && (
+        <FriendsMenu friends={friends} />
+      )}
     </Fragment>
   );
 };

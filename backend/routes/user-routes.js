@@ -28,4 +28,6 @@ router.get("/:id/posts", userControllers.getPosts);
 
 router.get("/:id/friends", userControllers.getFriends);
 
+router.get("/:id/requests", userControllers.getRequets);
+
 module.exports = router;

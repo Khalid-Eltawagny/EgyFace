@@ -263,9 +263,27 @@ const getFriends = async (req, res, next) => {
       return next(new HttpError("Something went wrong,please try again.", 500));
     }
     const firendsIds = result.map((rel) => {
-      return rel[0].person_2_id;
+      return rel.person_2_id;
     });
-    console.log(firendsIds) ; 
+    res.status(200).json(firendsIds) ; 
+  });
+};
+
+
+const getRequets = async (req, res, next) => {
+  const userId = req.params.id;
+  const query = `SELECT * FROM requests WHERE to_user_id = ${userId}`;
+
+  con.query(query, (err, result) => {
+    if (err) {
+      console.log(err) ; 
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    console.log(result) ; 
+    const requestIds = result.map((request) => {
+      return request.from_user_id;
+    });
+    res.status(200).json(requestIds) ; 
   });
 };
 
@@ -275,3 +293,4 @@ exports.getInfo = getInfo;
 exports.getPosts = getPosts;
 exports.friendReq = friendReq;
 exports.getFriends = getFriends ;
+exports.getRequets = getRequets ; 
