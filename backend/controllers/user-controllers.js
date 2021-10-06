@@ -217,12 +217,55 @@ const getPosts = async (req, res, next) => {
           ...post,
           likes: likes[i][0].likes,
           comments: comments[i][0].comments,
-          name:name
+          name: name,
         };
       });
-      console.log(posts) ; 
+      console.log(posts);
       res.status(200).json(posts);
     });
+  });
+};
+
+const friendReq = async (req, res, next) => {
+  const { from_user_id, to_user_id } = req.body;
+  const request = { from_user_id, to_user_id };
+  const query = `SELECT * FROM requests WHERE from_user_id =${from_user_id} AND to_user_id=${to_user_id}`;
+
+  con.query(query, (err, result) => {
+    if (err) {
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+
+    if (result.length !== 0) {
+      return next(
+        new HttpError("You can't send the same friend request twice.", 500)
+      );
+    }
+
+    const query = `INSERT INTO requests SET ?`;
+    con.query(query, request, (err, result) => {
+      if (err) {
+        return next(
+          new HttpError("Something went wrong,please try again.", 500)
+        );
+      }
+      res.status(201).json(result);
+    });
+  });
+};
+
+const getFriends = async (req, res, next) => {
+  const userId = req.params.id;
+  const query = `SELECT * FROM friends WHERE person_1_id = ${userId}`;
+
+  con.query(query, (err, result) => {
+    if (err) {
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    const firendsIds = result.map((rel) => {
+      return rel[0].person_2_id;
+    });
+    console.log(firendsIds) ; 
   });
 };
 
@@ -230,3 +273,5 @@ exports.signUp = signUp;
 exports.signIn = signIn;
 exports.getInfo = getInfo;
 exports.getPosts = getPosts;
+exports.friendReq = friendReq;
+exports.getFriends = getFriends ;

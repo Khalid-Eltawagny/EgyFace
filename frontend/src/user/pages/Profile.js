@@ -16,9 +16,28 @@ const Profile = () => {
   const profileId = useParams().id;
   const [info, setInfo] = useState(null);
   const [posts, setPosts] = useState(null);
+  const [friendAdded, setFriendAdded] = useState(false);
   const { isLoading, sendRequest, error, clearError } = useHttpClient();
 
   const ctx = useContext(AuthContext);
+
+  const addFriendHandler = async () => {
+    clearError();
+    const from = ctx.userId;
+    const to = +profileId;
+    const req = { from_user_id: from, to_user_id: to };
+    try {
+      const response = await sendRequest(
+        `http://localhost:5000/api/users/friendrequest`,
+        "POST",
+        JSON.stringify(req),
+        { "Content-Type": "application/json" }
+      );
+      setFriendAdded(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const getInfo = async () => {
       try {
@@ -55,11 +74,31 @@ const Profile = () => {
             <h2>Friends </h2>
             <Link to="/profile/friends">View all friends</Link>
           </div>
-          {!isLoading &&
-            info &&
-            info.userId.toString() !== ctx.userId.toString() && (
-              <button className={classes.btn}>Add friend</button>
-            )}
+          <div className={classes.cont}>
+            {isLoading && <LoadingSpinner />}
+            {!isLoading &&
+              info &&
+              info.userId.toString() !== ctx.userId.toString() &&
+              !friendAdded && (
+                <button className={classes.btn} onClick={addFriendHandler}>
+                  Add friend
+                </button>
+              )}
+            {!isLoading &&
+              info &&
+              info.userId.toString() !== ctx.userId.toString() &&
+              friendAdded && (
+                <h4
+                  style={{
+                    backgroundColor: "green",
+                    padding: "10px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  Request has been sent successfully.
+                </h4>
+              )}
+          </div>
         </div>
       )}
       {isLoading && <LoadingSpinner />}

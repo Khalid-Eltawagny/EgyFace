@@ -7,6 +7,13 @@ const postsRoutes = require("./routes/posts-routes");
 
 const app = express();
 
+const optionsMiddleware = (req,res,next) => {
+  if (req.method === "OPTIONS") {
+    return res.status(200).json();
+  }
+  next();
+} ; 
+
 app.use(bodyParser.json());
 
 // app.use("/uploads/images", express.static(path.join("uploads", "images")));
@@ -20,6 +27,8 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "POST ,GET ,PATCH ,DELETE");
   next();
 });
+
+app.use(optionsMiddleware) ; 
 
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postsRoutes);

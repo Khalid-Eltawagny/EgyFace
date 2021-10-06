@@ -20,8 +20,12 @@ router.post(
   userControllers.signIn
 );
 
-router.get("/:id/info",userControllers.getInfo) ; 
+router.post("/friendrequest", userControllers.friendReq);
 
-router.get("/:id/posts",userControllers.getPosts)
+router.get("/:id/info", userControllers.getInfo);
+
+router.get("/:id/posts", userControllers.getPosts);
+
+router.get("/:id/friends", userControllers.getFriends);
 
 module.exports = router;
