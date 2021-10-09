@@ -28,16 +28,16 @@ const DUMMY_COMMENTS = [
   },
 ];
 
-const CommentsList = () => {
-  const comments = DUMMY_COMMENTS.map((comment) => {
+const CommentsList = (props) => {
+  const comments = props.comments.map((comment) => {
     return (
       <CommentItem
         id={comment.id}
         comment={comment.comment}
         name={comment.name}
-        date={comment.date}
         image={comment.image}
         key={comment.id}
+        refresh = {props.refresh}
       />
     );
   });

@@ -30,4 +30,12 @@ router.get("/:id/friends", userControllers.getFriends);
 
 router.get("/:id/requests", userControllers.getRequets);
 
+router.post("/acceptrequest", userControllers.acceptReq);
+
+router.post("/declinerequest", userControllers.declineReq);
+
+router.post("/unfriend", userControllers.unfriend);
+
+router.post("/getSinglePost", userControllers.getSinglePost);
+
 module.exports = router;

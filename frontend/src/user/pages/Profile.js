@@ -16,8 +16,9 @@ const Profile = () => {
   const profileId = useParams().id;
   const [info, setInfo] = useState(null);
   const [posts, setPosts] = useState(null);
-  const [friendAdded, setFriendAdded] = useState(false);
+  const [friendAdded, setFriendAdded] = useState(undefined);
   const { isLoading, sendRequest, error, clearError } = useHttpClient();
+  const [showSendRequest, setShowSendRequest] = useState(false);
 
   const ctx = useContext(AuthContext);
 
@@ -38,6 +39,7 @@ const Profile = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     const getInfo = async () => {
       try {
@@ -60,10 +62,34 @@ const Profile = () => {
     getInfo();
     getPosts();
   }, [profileId]);
-  if (info) {
-    console.log(info.userId.toString(), profileId);
-    console.log(info.userId == profileId);
-  }
+
+  useEffect(() => {
+    const getFriendsIds = async () => {
+      try {
+        const friendsIds = await sendRequest(
+          `http://localhost:5000/api/users/${ctx.userId}/friends`
+        );
+        console.log(friendsIds, profileId);
+        let flag = false;
+        friendsIds.forEach((id) => {
+          if (id == profileId) {
+            flag = true;
+            setShowSendRequest(false);
+          }
+        });
+        if (!flag) {
+          setShowSendRequest(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (ctx.userId) {
+      console.log("hereee");
+      getFriendsIds();
+    }
+  }, [ctx]);
+
   return (
     <div className={classes.container}>
       {info && !isLoading && (
@@ -79,7 +105,8 @@ const Profile = () => {
             {!isLoading &&
               info &&
               info.userId.toString() !== ctx.userId.toString() &&
-              !friendAdded && (
+              !friendAdded &&
+              showSendRequest && (
                 <button className={classes.btn} onClick={addFriendHandler}>
                   Add friend
                 </button>

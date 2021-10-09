@@ -1,144 +1,158 @@
-.header{
-    display: flex;
-    justify-content: flex-start;
-    width: 50%;
+.header {
+  display: flex;
+  justify-content: flex-start;
+  width: 50%;
 }
-ul{
-    padding: 0;
+ul {
+  padding: 0;
+}
+
+.center {
+  text-align: center;
+}
+.postBtn {
+  background-color: rgb(9, 105, 231);
+  border: none;
+  color: white;
+  font-weight: 800;
+  border-radius: 6px;
 }
 
 .avt {
-    width: 20%;
-    margin-right: 20px;
+  width: 20%;
+  margin-right: 20px;
 }
-.item{
-    width: 70%;
-    list-style: none;
-    margin: 20px auto;
+.item {
+  width: 70%;
+  list-style: none;
+  margin: 20px auto;
 }
-.line{
-    width: 100%;
-    margin: 8px 0 ;
-    border-bottom: 1px solid rgb(221, 216, 216);
+.line {
+  width: 100%;
+  margin: 8px 0;
+  border-bottom: 1px solid rgb(221, 216, 216);
 }
 
-.card:hover h5,.card:hover h1,.card:hover h2,.card:hover h3,.card:hover p{
-    font-weight: 600;
-    color: white;
+.card:hover h5,
+.card:hover h1,
+.card:hover h2,
+.card:hover h3,
+.card:hover p {
+  font-weight: 600;
+  color: white;
 }
-.actions{
-    display: flex;
-    width: 100%;
-    border: 1px solid rgb(204, 203, 198);
-    border-radius: 6px ;
-    padding: 10px;
-    align-items: center;
+.actions {
+  display: flex;
+  width: 100%;
+  border: 1px solid rgb(204, 203, 198);
+  border-radius: 6px;
+  padding: 10px;
+  align-items: center;
 }
 
 .actions button {
-    margin: 0 10px;
-    border: 1px solid rgb(185, 185, 190);
-    border-radius: 6px;
-    padding: 5px;
-    font-weight: bold;
+  margin: 0 10px;
+  border: 1px solid rgb(185, 185, 190);
+  border-radius: 6px;
+  padding: 5px;
+  font-weight: bold;
 }
 
-button:hover{
-    cursor: pointer;
+button:hover {
+  cursor: pointer;
 }
 
-h4{
-    margin: 0;
-    display: inline;
+h4 {
+  margin: 0;
+  display: inline;
 }
-.liked{
-    background-color: blue;
+.liked {
+  background-color: blue;
 }
-p{
-    font-size: 20px;
-    font-weight: 300;
-    margin-bottom: 20px;
-}
-
-.postImage{
-    width: 50%;
-    margin: auto;
-    
+p {
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 20px;
 }
 
-.postImage img{
-    width: 80%;
-    object-fit: cover;
+.postImage {
+  width: 50%;
+  margin: auto;
 }
 
-h5{
-    margin: 4px;
-    font-weight: 100;
+.postImage img {
+  width: 80%;
+  object-fit: cover;
 }
 
-.link{
-    text-decoration: none;
-    color: black;
+h5 {
+  margin: 4px;
+  font-weight: 100;
 }
 
-.card:hover{
-    background-color: rgb(24, 24, 228);
+.link {
+  text-decoration: none;
+  color: black;
 }
 
-.card:hover .line{
-    border-bottom: 1px solid black;
+.card:hover {
+  background-color: rgb(24, 24, 228);
+}
+
+.card:hover .line {
+  border-bottom: 1px solid black;
 }
 
 .card:hover .actions button {
-    margin: 0 10px;
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 6px;
-    padding: 5px;
-    font-weight: bold;
+  margin: 0 10px;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 6px;
+  padding: 5px;
+  font-weight: bold;
 }
-.card:hover .actions{
-    display: flex;
-    width: 100%;
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 6px ;
-    padding: 10px;
-    align-items: center;
+.card:hover .actions {
+  display: flex;
+  width: 100%;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 6px;
+  padding: 10px;
+  align-items: center;
 }
 h5 {
-    text-align: left;
+  text-align: left;
 }
 
-.comment{
-    height: 35px;
-    width: 100%;
-    max-height: fit-content;
-    overflow: auto ; 
+.comment {
+  height: 35px;
+  width: 100%;
+  max-height: fit-content;
+  overflow: auto;
 }
 
-.commentActions{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.commentActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.commentArea{
-    width: 90%;
+.commentArea {
+  width: 90%;
 }
 
-.commentButton{
-    height: 30px;
-    margin: 5px;
-    font-weight: 900;
+.commentButton {
+  height: 30px;
+  margin: 5px;
+  font-weight: 900;
 }
 
 .post {
-    padding: 20px;
-    color: black;
+  padding: 20px;
+  color: black;
 }
 
-.post p{
-    margin-bottom: 20px;
-    color: black;
+.post p {
+  margin-bottom: 20px;
+  color: black;
 }
-p{
-    color: black;
+p {
+  color: black;
 }

@@ -16,6 +16,11 @@ const Friends = () => {
   const [requestsIds, setRequestsIds] = useState(null);
   const [friends, setFriends] = useState(null);
   const [requests, setRequests] = useState(null);
+  const [dummyState, setDummyState] = useState(false);
+
+  const refresh = () => {
+    setDummyState((prev) => !prev);
+  };
 
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
@@ -33,25 +38,7 @@ const Friends = () => {
     if (ctx.userId) {
       getFriends();
     }
-  }, [ctx]);
-
-  //getting friend requets ids
-  useEffect(() => {
-    console.log("inside");
-    const getRequets = async () => {
-      try {
-        const response = await sendRequest(
-          `http://localHost:5000/api/users/${ctx.userId}/requests`
-        );
-        setRequestsIds(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (ctx.userId) {
-      getRequets();
-    }
-  }, [ctx]);
+  }, [ctx, dummyState]);
 
   // now we have friends Ids , get information about them .
   useEffect(() => {
@@ -77,6 +64,24 @@ const Friends = () => {
     getFriends();
   }, [friendsIds]);
 
+  //getting friend requets ids
+  useEffect(() => {
+    console.log("inside");
+    const getRequets = async () => {
+      try {
+        const response = await sendRequest(
+          `http://localHost:5000/api/users/${ctx.userId}/requests`
+        );
+        setRequestsIds(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (ctx.userId) {
+      getRequets();
+    }
+  }, [ctx, dummyState]);
+
   useEffect(() => {
     const getRequests = async () => {
       if (requestsIds) {
@@ -101,18 +106,27 @@ const Friends = () => {
   }, [requestsIds]);
 
   return (
-    <Fragment>
-      {isLoading && <LoadingSpinner />}
-      {!isLoading && requests && requests.length > 0 && (
-        <FriendRequestsList requests={requests} />
-      )}
-      {!isLoading && requests && requests.length === 0 && <h2>No requests.</h2>}
-      {!isLoading && friends && friends.length === 0 && <h2>No friends.</h2>}
+    <div className={classes.container}>
+      <section className={classes.reqs}>
+        {isLoading && !requests && <LoadingSpinner />}
+        {!isLoading && requests && requests.length > 0 && (
+          <FriendRequestsList requests={requests} refresh={refresh} />
+        )}
 
-      {!isLoading && friends && friends.length > 0 && (
-        <FriendsMenu friends={friends} />
-      )}
-    </Fragment>
+        {!isLoading && requests && requests.length === 0 && (
+          <h2>No friend requests.</h2>
+        )}
+      </section>
+
+      <section className={classes.reqs}>
+        {isLoading && !friends && <LoadingSpinner />}
+        {!isLoading && friends && friends.length === 0 && <h2>No friends.</h2>}
+
+        {!isLoading && friends && friends.length > 0 && (
+          <FriendsMenu friends={friends} refresh={refresh} />
+        )}
+      </section>
+    </div>
   );
 };
 

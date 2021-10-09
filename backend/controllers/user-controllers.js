@@ -225,6 +225,71 @@ const getPosts = async (req, res, next) => {
     });
   });
 };
+const getSinglePost = async (req, res, next) => {
+  console.log(req.body) ; 
+  const { userId, postId } = req.body;
+  const query = `SELECT * FROM users WHERE id = ${userId}`;
+  con.query(query, async (err, result) => {
+    if (err) {
+      console.log(err);
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    if (result.length === 0) {
+      return next(new HttpError("No user found,please try again.", 500));
+    }
+    const name = result[0].name;
+    const query = `SELECT * FROM posts where id = ${postId}`;
+    con.query(query, async (err, result) => {
+      if (err) {
+        console.log(err);
+
+        return next(
+          new HttpError("Something went wrong,please try again.", 500)
+        );
+      }
+      const post = result[0];
+      const query = `SELECT COUNT(*) as likes FROM likes WHERE post_id = ${postId} `;
+
+      con.query(query, (err, result) => {
+        if (err) {
+          console.log(err);
+
+          return next(
+            new HttpError("Something went wrong,please try again.", 500)
+          );
+        }
+
+        const likes = result[0].likes;
+
+        const query = `SELECT COUNT(*) as comments FROM comments WHERE post_id = ${postId} `;
+        con.query(query, (err, result) => {
+          console.log(err);
+
+          if (err) {
+            returnnext(
+              new HttpError("Something went wrong,please try again.", 500)
+            );
+          }
+
+          const comments = result[0].comments;
+
+          const postjson = { postId, ...post, likes, comments, name };
+          // const posts = result.map((post, i) => {
+          //   return {
+          //     postId: post.id,
+          //     ...post,
+          //     likes: likes[i][0].likes,
+          //     comments: comments[i][0].comments,
+          //     name: name,
+          //   };
+          // });
+          console.log(postjson);
+          res.status(200).json(postjson);
+        });
+      });
+    });
+  });
+};
 
 const friendReq = async (req, res, next) => {
   const { from_user_id, to_user_id } = req.body;
@@ -265,10 +330,9 @@ const getFriends = async (req, res, next) => {
     const firendsIds = result.map((rel) => {
       return rel.person_2_id;
     });
-    res.status(200).json(firendsIds) ; 
+    res.status(200).json(firendsIds);
   });
 };
-
 
 const getRequets = async (req, res, next) => {
   const userId = req.params.id;
@@ -276,14 +340,77 @@ const getRequets = async (req, res, next) => {
 
   con.query(query, (err, result) => {
     if (err) {
-      console.log(err) ; 
+      console.log(err);
       return next(new HttpError("Something went wrong,please try again.", 500));
     }
-    console.log(result) ; 
+    console.log(result);
     const requestIds = result.map((request) => {
       return request.from_user_id;
     });
-    res.status(200).json(requestIds) ; 
+    res.status(200).json(requestIds);
+  });
+};
+
+const acceptReq = async (req, res, next) => {
+  const { person_2_id, person_1_id } = req.body;
+  const rel1 = { person_1_id, person_2_id };
+  const rel2 = { person_1_id: person_2_id, person_2_id: person_1_id };
+  const query = `INSERT INTO friends SET ?`;
+
+  con.query(query, rel1, (err, result) => {
+    if (err) {
+      console.log(err);
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    con.query(query, rel2, (err, result) => {
+      if (err) {
+        console.log(err);
+        return next(
+          new HttpError("Something went wrong,please try again.", 500)
+        );
+      }
+      const query = `DELETE FROM requests WHERE from_user_id=${person_1_id} AND to_user_id=${person_2_id}`;
+      con.query(query, (err, result) => {
+        if (err) {
+          console.log(err);
+          return next(
+            new HttpError("Something went wrong,please try again.", 500)
+          );
+        }
+        res.status(201).json(result);
+      });
+    });
+  });
+};
+
+const declineReq = async (req, res, next) => {
+  const { person_2_id, person_1_id } = req.body;
+  const query = `DELETE FROM requests WHERE from_user_id=${person_1_id} AND to_user_id=${person_2_id}`;
+  con.query(query, (err, result) => {
+    if (err) {
+      console.log(err);
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    res.status(201).json(result);
+  });
+};
+
+const unfriend = async (req, res, next) => {
+  const { person_1_id, person_2_id } = req.body;
+  const query = `DELETE FROM friends WHERE person_1_id = ${person_1_id} AND person_2_id = ${person_2_id}`;
+  con.query(query, (err, result) => {
+    if (err) {
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    const query = `DELETE FROM friends WHERE person_1_id = ${person_2_id} AND person_2_id = ${person_1_id}`;
+    con.query(query, (err, result) => {
+      if (err) {
+        return next(
+          new HttpError("Something went wrong,please try again.", 500)
+        );
+      }
+      res.status(201).json(result);
+    });
   });
 };
 
@@ -292,5 +419,9 @@ exports.signIn = signIn;
 exports.getInfo = getInfo;
 exports.getPosts = getPosts;
 exports.friendReq = friendReq;
-exports.getFriends = getFriends ;
-exports.getRequets = getRequets ; 
+exports.getFriends = getFriends;
+exports.getRequets = getRequets;
+exports.acceptReq = acceptReq;
+exports.declineReq = declineReq;
+exports.unfriend = unfriend;
+exports.getSinglePost = getSinglePost;

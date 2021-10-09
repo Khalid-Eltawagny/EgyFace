@@ -21,12 +21,16 @@ const DUMMY_FRIENDS = [
 ];
 
 const FriendsMenu = (props) => {
-  const friends = props.friends.map((friend) => (
-    <FriendItem id={friend.id} name={friend.name} image={friend.image} />
+  const friends = props.friends.map((friend, indx) => (
+    <FriendItem
+      userId={friend.userId}
+      key={friend.userId}
+      name={friend.name}
+      image={friend.image}
+      refresh={props.refresh}
+    />
   ));
-  return <Card>
-        <h2>Friends :</h2>
-      {friends}</Card>;
+  return <Card>{friends}</Card>;
 };
 
 export default FriendsMenu;

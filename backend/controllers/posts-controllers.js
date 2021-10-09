@@ -49,4 +49,64 @@ const addPost = async (req, res, next) => {
   });
 };
 
+const getPost = async (req, res, next) => {
+  const postId = req.params.id;
+
+  const query = `SELECT * FROM posts WHERE id = ${postId}`;
+  con.query(query, (err, result) => {
+    if (err) {
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    res.status(200).json(result);
+  });
+};
+
+const newComment = async (req, res, next) => {
+  const post = req.body;
+
+  const query = `INSERT INTO comments SET ?`;
+
+  con.query(query, post, (err, result) => {
+    if (err) {
+      console.log(err);
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    res.status(201).json(result);
+  });
+};
+
+const getComments = async (req, res, next) => {
+  const postId = req.params.id;
+  const query = `SELECT * FROM comments WHERE post_id = ${postId}`;
+  con.query(query, async (err, result) => {
+    if (err) {
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    const comments = result;
+    const promises = comments.map((comment, indx) => {
+      return new Promise((resolve, reject) => {
+        const userId = comment.user_id;
+        const query = `SELECT * FROM users WHERE id = ${userId}`;
+        con.query(query, (err, result) => {
+          if (err) {
+            return reject(
+              next(new HttpError("Something went wrong,please try again.", 500))
+            );
+          }
+          console.log(userId) ;
+          comments[indx].name = result[0].name ; 
+          resolve();
+        });
+      });
+    });
+
+    await Promise.all(promises) ; 
+    console.log(comments) ; 
+    res.status(200).json(comments);
+  });
+};
+
 exports.addPost = addPost;
+exports.getPost = getPost;
+exports.newComment = newComment;
+exports.getComments = getComments;

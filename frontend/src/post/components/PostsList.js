@@ -4,7 +4,7 @@ import classes from "./PostsList.module.css";
 import PostItem from "./PostItem";
 
 const PostsList = (props) => {
-  console.log(props.posts) ; 
+  
   const posts = props.posts.map((post) => {
     return (
       <PostItem
@@ -17,6 +17,7 @@ const PostsList = (props) => {
         postImage={post.postImage}
         date={post.date}
         full={false}
+        refresh={props.refresh}
       />
     );
   });

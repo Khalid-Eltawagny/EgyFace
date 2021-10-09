@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import classes from "./FriendRequestsList.module.css";
 import FriendRequestItem from "../components/FriendRequestItem";
@@ -37,14 +37,23 @@ const DUMMY_REQUESTS = [
   },
 ];
 
+
 const FriendRequestsList = (props) => {
-  const items = props.requests.map((req, indx) => {
-    return <FriendRequestItem id={indx} name={req.name} image={req.image} />;
+
+  const items = props.requests.map((req) => {
+    return (
+      <FriendRequestItem
+        userId={req.userId}
+        name={req.name}
+        image={req.image}
+        refresh={props.refresh}
+        key={req.userId}
+      />
+    );
   });
 
   return (
     <Card>
-      <h2>Friend Requests :</h2>
       {items}
     </Card>
   );
