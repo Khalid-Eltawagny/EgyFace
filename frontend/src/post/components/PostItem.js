@@ -40,6 +40,19 @@ const PostItem = (props) => {
     getInfo();
   }, [post_id, dummyState]);
 
+  useEffect(() => {
+    const getIsLiked = async () => {
+      try {
+        const res = await sendRequest(
+          `http://localhost:5000/api/users/isLiked/${ctx.userId}/${post_id}`
+        );
+        setIsLiked(res.isLiked);
+        console.log(res.isLiked);
+      } catch (error) {}
+    };
+    getIsLiked();
+  }, [ctx]);
+
   const [formState, inputHandler, setFormData] = useForm(
     {
       comment: {
@@ -70,9 +83,37 @@ const PostItem = (props) => {
     } catch (error) {}
   };
 
-  const flipLikeState = () => {
-    setLikes(likes + 1);
-    setIsLiked((prev) => !prev);
+  const likeSubmitHandler = () => {
+    const payload = { user_id: ctx.userId, post_id };
+    if (!isLiked) {
+      const sendLike = async () => {
+        try {
+          await sendRequest(
+            `http://localhost:5000/api/posts/like`,
+            "POST",
+            JSON.stringify(payload),
+            { "Content-Type": "application/json" }
+          );
+        } catch (error) {}
+      };
+      sendLike();
+      setLikes(likes + 1);
+      setIsLiked((prev) => !prev);
+    } else {
+      const sendDislike = async () => {
+        try {
+          await sendRequest(
+            `http://localhost:5000/api/posts/dislike`,
+            "POST",
+            JSON.stringify(payload),
+            { "Content-Type": "application/json" }
+          );
+        } catch (error) {}
+      };
+      sendDislike();
+      setLikes(likes - 1);
+      setIsLiked((prev) => !prev);
+    }
   };
 
   return (
@@ -85,16 +126,21 @@ const PostItem = (props) => {
       {!isLoading && (
         <Card className={props.full ? "" : classes.card}>
           {!props.full && (
-            <Link className={classes.link} to={`/post/${props.id}`}>
+            <React.Fragment>
               <div className={classes.header}>
-                <div className={classes.avt}>
-                  <Avatar
-                    image="https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                    alt={props.alt}
-                  />
-                </div>
-                <div className={classes.name}>
-                  <h3>{props.name}</h3>
+                <Link to={`/profile/${userId}`}>
+                  <div className={classes.avt}>
+                    <Avatar
+                      image="https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                      alt={props.alt}
+                    />
+                  </div>
+                  <div className={classes.name}>
+                    <h3>{props.name}</h3>
+                  </div>
+                </Link>
+                <div className={classes.fullpostOpt}>
+                  <Link to={`/post/${props.id}`}> View full post</Link>
                 </div>
               </div>
               <h5>{props.date}</h5>
@@ -106,7 +152,7 @@ const PostItem = (props) => {
                   {props.postImage && <img src={props.postImage} />}
                 </div>
               </div>
-            </Link>
+            </React.Fragment>
           )}
           {props.full && (
             <div>
@@ -134,12 +180,15 @@ const PostItem = (props) => {
           )}
           <div className={classes.line}></div>
           <div className={classes.actions}>
-            <button
-              className={isLiked ? classes.liked : ""}
-              onClick={flipLikeState}
-            >
-              <h4> {likes} |</h4> Like
-            </button>
+            {isLoading && <LoadingSpinner />}
+            {!isLoading && (
+              <button
+                className={isLiked ? classes.liked : ""}
+                onClick={likeSubmitHandler}
+              >
+                <h4> {likes} |</h4> Like
+              </button>
+            )}
 
             <Link to={`/post/${props.id}`} style={{ textDecoration: "none" }}>
               <button>
@@ -160,7 +209,11 @@ const PostItem = (props) => {
                 className={classes.comment}
               />
             </div>
-            <button className={classes.postBtn} onClick={commentSubmitHandler}>
+            <button
+              className={classes.postBtn}
+              onClick={commentSubmitHandler}
+              disabled={!formState.isValid}
+            >
               comment
             </button>
           </div>

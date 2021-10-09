@@ -226,7 +226,7 @@ const getPosts = async (req, res, next) => {
   });
 };
 const getSinglePost = async (req, res, next) => {
-  console.log(req.body) ; 
+  console.log(req.body);
   const { userId, postId } = req.body;
   const query = `SELECT * FROM users WHERE id = ${userId}`;
   con.query(query, async (err, result) => {
@@ -414,6 +414,25 @@ const unfriend = async (req, res, next) => {
   });
 };
 
+const isLiked = async (req, res, next) => {
+  const userId = req.params.uid;
+  const postId = req.params.pid;
+
+  const query = `SELECT * FROM likes WHERE user_id = ${userId} AND post_id = ${postId}`;
+
+  con.query(query, (err, result) => {
+    if (err) {
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+
+    if (result.length === 0) {
+      return res.status(200).json({ isLiked: false });
+    }
+
+    return res.status(200).json({ isLiked: true });
+  });
+};
+
 exports.signUp = signUp;
 exports.signIn = signIn;
 exports.getInfo = getInfo;
@@ -425,3 +444,4 @@ exports.acceptReq = acceptReq;
 exports.declineReq = declineReq;
 exports.unfriend = unfriend;
 exports.getSinglePost = getSinglePost;
+exports.isLiked = isLiked ;

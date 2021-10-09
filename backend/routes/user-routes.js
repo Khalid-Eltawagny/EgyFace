@@ -38,4 +38,6 @@ router.post("/unfriend", userControllers.unfriend);
 
 router.post("/getSinglePost", userControllers.getSinglePost);
 
+router.get("/isLiked/:uid/:pid", userControllers.isLiked);
+
 module.exports = router;

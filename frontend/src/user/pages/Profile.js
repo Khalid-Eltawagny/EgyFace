@@ -7,7 +7,6 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useState } from "react";
 
 import classes from "./Profile.module.css";
-import NewPost from "../../post/components/NewPost";
 import PostsList from "../../post/components/PostsList";
 import { useHttpClient } from "../../shared/hooks/use-http";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";

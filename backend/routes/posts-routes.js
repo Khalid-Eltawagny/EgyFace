@@ -11,4 +11,8 @@ router.post("/newComment", postsControllers.newComment);
 
 router.get("/:id/comments", postsControllers.getComments);
 
+router.post("/like", postsControllers.like);
+
+router.post("/dislike", postsControllers.dislike);
+
 module.exports = router;

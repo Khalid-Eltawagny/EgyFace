@@ -1,11 +1,43 @@
 .header {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
   width: 50%;
+}
+.header a {
+  width: 70%;
+  display: flex;
+  justify-content: flex-start
 }
 ul {
   padding: 0;
 }
+a{
+  margin: 0;
+}
+.fullpostOpt{
+  text-decoration: none;
+  width: 50%;
+  padding: 5px;
+  background-color: purple;
+  color: white;
+  font-weight: 900;
+  border-radius: 6px;
+  text-align: center;
+}
+.fullpostOpt a {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  color: white;
+  font-weight: 900;
+  margin: 0;
+  width: 100%;
+}
+
+/* .fullpostOpt:hover{
+  cursor: pointer;
+} */
 
 .center {
   text-align: center;
@@ -33,14 +65,14 @@ ul {
   border-bottom: 1px solid rgb(221, 216, 216);
 }
 
-.card:hover h5,
+/* .card:hover h5,
 .card:hover h1,
 .card:hover h2,
 .card:hover h3,
 .card:hover p {
   font-weight: 600;
   color: white;
-}
+} */
 .actions {
   display: flex;
   width: 100%;
@@ -95,15 +127,14 @@ h5 {
   color: black;
 }
 
-.card:hover {
-  background-color: rgb(24, 24, 228);
-}
+/* .card:hover {
+  /* background-color: rgb(24, 24, 228); */
 
-.card:hover .line {
+/* .card:hover .line {
   border-bottom: 1px solid black;
-}
+} */
 
-.card:hover .actions button {
+/* .card:hover .actions button {
   margin: 0 10px;
   border: 1px solid rgb(0, 0, 0);
   border-radius: 6px;
@@ -117,7 +148,7 @@ h5 {
   border-radius: 6px;
   padding: 10px;
   align-items: center;
-}
+} */
 h5 {
   text-align: left;
 }

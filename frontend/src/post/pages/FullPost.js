@@ -59,6 +59,7 @@ const FullPost = () => {
           `http://localhost:5000/api/posts/${postId}/comments`
         );
         console.log(res);
+        res.reverse() ; 
         setComments(res);
       } catch (error) {}
     };

@@ -9,7 +9,6 @@ import { Fragment } from "react";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import classes from "./Home.module.css";
 
-
 const Home = () => {
   const [posts, setPosts] = useState(null);
   const [friendsIds, setFriendsIds] = useState(false);
@@ -17,7 +16,7 @@ const Home = () => {
   const { isLoading, error, clearError, sendRequest } = useHttpClient();
 
   const getPosts = async (id) => {
-    console.log('here') ; 
+    console.log("here");
     try {
       const friendsIds = await sendRequest(
         `http://localhost:5000/api/users/${id}/friends`
@@ -38,11 +37,15 @@ const Home = () => {
         });
       });
       const posts = await Promise.all(promises);
+      console.log(posts);
       try {
         const myposts = await sendRequest(
           `http://localhost:5000/api/users/${id}/posts`
         );
         if (posts.length === 0) {
+          myposts.sort((x, y) => {
+            return  +new Date(y.post_date ) - +new Date(x.post_date)
+          });
           setPosts(myposts);
         } else {
           myposts.forEach((post) => {
@@ -51,6 +54,11 @@ const Home = () => {
         }
       } catch (error) {}
       if (posts.length !== 0) {
+        console.log(posts) ; 
+        posts[0].sort((x, y) => {
+          return  +new Date(y.post_date ) - +new Date(x.post_date)
+        });
+        console.log(posts) ; 
         setPosts(posts);
       }
     } catch (error) {}

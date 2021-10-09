@@ -93,16 +93,42 @@ const getComments = async (req, res, next) => {
               next(new HttpError("Something went wrong,please try again.", 500))
             );
           }
-          console.log(userId) ;
-          comments[indx].name = result[0].name ; 
+          console.log(userId);
+          comments[indx].name = result[0].name;
           resolve();
         });
       });
     });
 
-    await Promise.all(promises) ; 
-    console.log(comments) ; 
+    await Promise.all(promises);
+    console.log(comments);
     res.status(200).json(comments);
+  });
+};
+
+const like = async (req, res, next) => {
+  const likeInfo = req.body;
+  const query = `INSERT INTO likes SET ?`;
+  con.query(query, likeInfo, (err, result) => {
+    if (err) {
+      return reject(
+        next(new HttpError("Something went wrong,please try again.", 500))
+      );
+    }
+    res.status(201).json() ;
+  });
+};
+
+const dislike = async(req,res,next) => {
+  const likeInfo = req.body;
+  const query = `DELETE FROM likes WHERE user_id = ${likeInfo.user_id} AND post_id = ${likeInfo.post_id}`;
+  con.query(query, likeInfo, (err, result) => {
+    if (err) {
+      return reject(
+        next(new HttpError("Something went wrong,please try again.", 500))
+      );
+    }
+    res.status(201).json() ;
   });
 };
 
@@ -110,3 +136,5 @@ exports.addPost = addPost;
 exports.getPost = getPost;
 exports.newComment = newComment;
 exports.getComments = getComments;
+exports.like = like;
+exports.dislike = dislike;
