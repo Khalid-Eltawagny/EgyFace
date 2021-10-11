@@ -16,6 +16,11 @@ const NavLinks = (props) => {
         </NavLink>
       </li>
       <li>
+        <NavLink to="/search" activeClassName={classes.selected} exact>
+          Search
+        </NavLink>
+      </li>
+      <li>
         <NavLink
           to={`/profile/${ctx.userId}`}
           activeClassName={classes.selected}

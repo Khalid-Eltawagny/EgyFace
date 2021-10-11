@@ -10,6 +10,7 @@ import Layout from "./shared/components/UIElements/Layout";
 import Profile from "./user/pages/Profile";
 
 import Friends from "./user/pages/Friends";
+import Search from "./user/pages/Search";
 
 import NewPost from "./post/components/NewPost";
 import { AuthContext } from "./shared/context/auth-context";
@@ -52,6 +53,11 @@ const App = () => {
         <Route path={`/post/:id`} exact>
           <Layout>
             <FullPost />
+          </Layout>
+        </Route>
+        <Route path="/search">
+          <Layout>
+            <Search />
           </Layout>
         </Route>
         <Redirect to="/home"></Redirect>

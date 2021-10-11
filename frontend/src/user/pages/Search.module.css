@@ -1,0 +1,31 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.actions {
+    display: flex;
+    width: 30%;
+    height: fit-content;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.actions label {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+}
+
+.actions .input{
+    padding: 10px;
+    font-size: 16px;
+}
+.users {
+    width: 50%;
+}

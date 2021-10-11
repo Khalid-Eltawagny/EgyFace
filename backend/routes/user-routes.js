@@ -40,4 +40,6 @@ router.post("/getSinglePost", userControllers.getSinglePost);
 
 router.get("/isLiked/:uid/:pid", userControllers.isLiked);
 
+router.get("/:id/getUsers", userControllers.getUsers);
+
 module.exports = router;

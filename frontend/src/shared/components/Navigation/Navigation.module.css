@@ -4,8 +4,8 @@
     align-items: center;
     padding: 0 20px;
     height: 60px;
-    align-items: center;
-    background-color: rgb(24, 24, 228);
+    justify-content: space-between;
+    background-color: rgba(6, 6, 128, 0.924);
     position: fixed;
     left: 0;
     top: 0;
@@ -23,10 +23,11 @@
 }
 
 .linksContainer{
-    width: 70%;
+    width: 50%;
     background-color: transparent;
     display: flex;
     align-items: center;
+    padding: 0 10px;
 }
 
 @media (max-width:860px) {

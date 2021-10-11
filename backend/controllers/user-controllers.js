@@ -15,6 +15,19 @@ con.connect((err) => {
   if (err) throw new HttpError("Couldn't connect to this database server", 500);
 });
 
+const getUsers = async (req, res, next) => {
+  const userId = req.params.id;
+  const query = `SELECT id,email,image,name FROM users WHERE id != ${userId}`;
+  con.query(query, (err, result) => {
+    if (err) {
+      console.log(err);
+      return next(
+        new HttpError("Something went wrong, please try agian later.", 422)
+      );
+    }
+    res.status(200).json(result) ;  
+  });
+};
 const getInfo = async (req, res, next) => {
   const userId = req.params.id;
   const query = `SELECT * FROM users WHERE id = ${userId} `;
@@ -444,4 +457,5 @@ exports.acceptReq = acceptReq;
 exports.declineReq = declineReq;
 exports.unfriend = unfriend;
 exports.getSinglePost = getSinglePost;
-exports.isLiked = isLiked ;
+exports.isLiked = isLiked;
+exports.getUsers = getUsers ; 
