@@ -21,30 +21,65 @@ const Home = () => {
       const friendsIds = await sendRequest(
         `http://localhost:5000/api/users/${id}/friends`
       );
+      console.log(friendsIds);
       if (friendsIds.length !== 0) {
         setFriendsIds(true);
       }
-      const promises = friendsIds.map((id_) => {
-        return new Promise(async (resolve, reject) => {
-          try {
-            const posts = await sendRequest(
-              `http://localhost:5000/api/users/${id_}/posts`
-            );
-            return resolve(posts);
-          } catch (error) {
-            return reject(error);
-          }
+      let posts;
+      if (friendsIds.length > 0) {
+        const promises = friendsIds.map((id_) => {
+          return new Promise(async (resolve, reject) => {
+            try {
+              const posts = await sendRequest(
+                `http://localhost:5000/api/users/${id_}/posts`
+              );
+              console.log(posts);
+              return resolve(posts);
+            } catch (error) {
+              return reject(error);
+            }
+          });
         });
-      });
-      const posts = await Promise.all(promises);
+        posts = await Promise.all(promises);
+      }
+
+      console.log(posts);
+      if (posts && posts[0].length > 0) {
+        console.log('here') ; 
+        const imagePromises = posts[0].map((post) => {
+          console.log(post) ; 
+          return new Promise(async (resolve, reject) => {
+            try {
+              console.log(post);
+              const info = await sendRequest(
+                `http://localhost:5000/api/users/${post.user_id}/info`
+              );
+              post["userImage"] = info.userImage;
+              resolve();
+            } catch (error) {
+              return reject(error);
+            }
+          });
+        });
+        await Promise.all(imagePromises);
+      }
+
       console.log(posts);
       try {
+        const info = await sendRequest(
+          `http://localhost:5000/api/users/${id}/info`
+        );
         const myposts = await sendRequest(
           `http://localhost:5000/api/users/${id}/posts`
         );
+        console.log(myposts);
+        console.log(info);
+        myposts.forEach((element) => {
+          element["userImage"] = info.userImage;
+        });
         if (posts.length === 0) {
           myposts.sort((x, y) => {
-            return  +new Date(y.post_date ) - +new Date(x.post_date)
+            return +new Date(y.post_date) - +new Date(x.post_date);
           });
           setPosts(myposts);
         } else {
@@ -54,13 +89,14 @@ const Home = () => {
         }
       } catch (error) {}
       if (posts.length !== 0) {
-        console.log(posts) ; 
+        console.log(posts);
         posts[0].sort((x, y) => {
-          return  +new Date(y.post_date ) - +new Date(x.post_date)
+          return +new Date(y.post_date) - +new Date(x.post_date);
         });
-        console.log(posts) ; 
+        console.log(posts);
         setPosts(posts);
       }
+      console.log(posts);
     } catch (error) {}
   };
 

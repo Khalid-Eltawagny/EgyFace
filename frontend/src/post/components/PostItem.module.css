@@ -1,8 +1,7 @@
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 50%;
+  width: 80%;
 }
 .header a {
   width: 70%;
@@ -186,4 +185,16 @@ h5 {
 }
 p {
   color: black;
+}
+
+.delete {
+  border-radius: 50%;
+  border: none;
+  padding: 5px;
+  margin: 10px;
+  position: absolute;
+  right: 0;
+  background-color: rgb(161, 9, 9);
+  font-weight: 900;
+  color: white;
 }

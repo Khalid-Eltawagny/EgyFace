@@ -5,6 +5,9 @@ import classes from "./PostItem.module.css";
 import Card from "../../shared/components/UIElements/Card";
 import Avatar from "../../shared/components/UIElements/Avatar";
 
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+
 import { Link } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
 import { useForm } from "../../shared/hooks/form-hook";
@@ -16,6 +19,7 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useContext } from "react";
 
 const PostItem = (props) => {
+
   const { isLoading, error, clearError, sendRequest } = useHttpClient();
   const [isLiked, setIsLiked] = useState(false);
   const [dummyState, setDummyState] = useState(false);
@@ -125,13 +129,13 @@ const PostItem = (props) => {
       )}
       {!isLoading && (
         <Card className={props.full ? "" : classes.card}>
-          {!props.full && (
+          
             <React.Fragment>
               <div className={classes.header}>
                 <Link to={`/profile/${userId}`}>
                   <div className={classes.avt}>
                     <Avatar
-                      image="https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                      image={`http://localhost:5000/${props.userImage}`}
                       alt={props.alt}
                     />
                   </div>
@@ -139,9 +143,14 @@ const PostItem = (props) => {
                     <h3>{props.name}</h3>
                   </div>
                 </Link>
+                {!props.full && 
                 <div className={classes.fullpostOpt}>
                   <Link to={`/post/${props.id}`}> View full post</Link>
                 </div>
+                }
+                {userId == ctx.userId && (
+                  <button className={classes.delete}> Delete Post</button>
+                )}
               </div>
               <h5>{props.date}</h5>
               <div className={classes.line}></div>
@@ -153,31 +162,6 @@ const PostItem = (props) => {
                 </div>
               </div>
             </React.Fragment>
-          )}
-          {props.full && (
-            <div>
-              <div className={classes.header}>
-                <div className={classes.avt}>
-                  <Avatar
-                    image="https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                    alt={props.alt}
-                  />
-                </div>
-                <div className={classes.name}>
-                  <h3>{props.name}</h3>
-                </div>
-              </div>
-              <h5>{props.date}</h5>
-              <div className={classes.line}></div>
-
-              <div className={classes.post}>
-                <p>{props.post}</p>
-                <div className={classes.postImage}>
-                  {props.postImage && <img src={props.postImage} />}
-                </div>
-              </div>
-            </div>
-          )}
           <div className={classes.line}></div>
           <div className={classes.actions}>
             {isLoading && <LoadingSpinner />}

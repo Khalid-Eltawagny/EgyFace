@@ -87,6 +87,7 @@ const signUp = async (req, res, next) => {
       name,
       password: hashedPassword,
       email,
+      image:req.file.path
     };
 
     const query = "INSERT INTO users SET ?";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import { useContext } from "react";
@@ -45,22 +45,31 @@ const Profile = () => {
         const response = await sendRequest(
           `http://localhost:5000/api/users/${profileId}/info`
         );
+        console.log(response);
         setInfo(response);
       } catch (error) {}
     };
-    clearError();
-    const getPosts = async () => {
-      try {
-        const response = await sendRequest(
-          `http://localhost:5000/api/users/${profileId}/posts`
-        );
-        response.reverse();
-        setPosts(response);
-      } catch (error) {}
-    };
     getInfo();
-    getPosts();
   }, [profileId]);
+
+  useEffect(() => {
+    if (info) {
+      const getPosts = async () => {
+        try {
+          const response = await sendRequest(
+            `http://localhost:5000/api/users/${profileId}/posts`
+          );
+          response.forEach(element => {
+            element["userImage"] = info.userImage
+          });
+          console.log(response);
+          response.reverse();
+          setPosts(response);
+        } catch (error) {}
+      };
+      getPosts();
+    }
+  }, [info]);
 
   useEffect(() => {
     const getFriendsIds = async () => {
@@ -68,7 +77,6 @@ const Profile = () => {
         const friendsIds = await sendRequest(
           `http://localhost:5000/api/users/${ctx.userId}/friends`
         );
-        console.log(friendsIds, profileId);
         let flag = false;
         friendsIds.forEach((id) => {
           if (id == profileId) {
@@ -94,7 +102,7 @@ const Profile = () => {
       {info && !isLoading && (
         <div className={classes.info}>
           <h1>{info.name}</h1>
-          <img src="https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+          <img src={`http://localhost:5000/${info.userImage}`} />
           <div className={classes.friends}>
             <h2>Friends </h2>
             <Link to="/profile/friends">View all friends</Link>
@@ -130,7 +138,9 @@ const Profile = () => {
       {isLoading && <LoadingSpinner />}
       <div className={classes.border}></div>
       <div className={classes.main}>
-        {posts && posts.length > 0 && !isLoading && <PostsList posts={posts} />}
+        {posts && posts.length > 0 && !isLoading && (
+          <PostsList posts={posts} userImage={info.userImage} />
+        )}
         {((!posts && !isLoading) || (posts && posts.length === 0)) && (
           <p style={{ color: "white" }}>No posts yet.</p>
         )}

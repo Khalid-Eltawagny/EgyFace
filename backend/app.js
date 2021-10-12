@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const path = require("path");
 const HttpError = require("./models/http-error");
 const userRoutes = require("./routes/user-routes");
 const postsRoutes = require("./routes/posts-routes");
@@ -16,7 +17,7 @@ const optionsMiddleware = (req,res,next) => {
 
 app.use(bodyParser.json());
 
-// app.use("/uploads/images", express.static(path.join("uploads", "images")));
+app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

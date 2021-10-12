@@ -18,6 +18,7 @@ const PostsList = (props) => {
         date={post.date}
         full={false}
         refresh={props.refresh}
+        userImage={post.userImage}
       />
     );
   });
