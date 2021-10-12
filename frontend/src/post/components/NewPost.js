@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import { useForm } from "../../shared/hooks/form-hook";
@@ -12,9 +12,8 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const NewPost = (props) => {
   const ctx = useContext(AuthContext);
-  const { isLoading, sendRequest, error, clearError } = useHttpClient();
-  const [dummyState, setDummyState] = useState(false);
-  const [formState, inputHandler, setFormData] = useForm(
+  const { isLoading, sendRequest } = useHttpClient();
+  const [formState, inputHandler] = useForm(
     {
       post: {
         value: "",
@@ -26,7 +25,7 @@ const NewPost = (props) => {
   const submitPostHandler = async () => {
     const post = { user_id: ctx.userId, post: formState.inputs.post.value };
     try {
-      const response = await sendRequest(
+       await sendRequest(
         "http://localhost:5000/api/posts/new",
         "POST",
         JSON.stringify(post),

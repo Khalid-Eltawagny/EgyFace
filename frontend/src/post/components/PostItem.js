@@ -3,10 +3,6 @@ import { useState } from "react";
 
 import classes from "./PostItem.module.css";
 import Card from "../../shared/components/UIElements/Card";
-import Avatar from "../../shared/components/UIElements/Avatar";
-
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 
 import { Link } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
@@ -19,8 +15,7 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useContext } from "react";
 
 const PostItem = (props) => {
-
-  const { isLoading, error, clearError, sendRequest } = useHttpClient();
+  const { isLoading, sendRequest } = useHttpClient();
   const [isLiked, setIsLiked] = useState(false);
   const [dummyState, setDummyState] = useState(false);
   const [userId, setUserId] = useState(null);
@@ -121,48 +116,43 @@ const PostItem = (props) => {
   };
 
   return (
-    <li className={classes.item}>
-      {isLoading && (
-        <Card className={`${props.full ? "" : classes.card} ${classes.center}`}>
-          <LoadingSpinner />
-        </Card>
-      )}
+    <Card className={classes.item}>
       {!isLoading && (
-        <Card className={props.full ? "" : classes.card}>
-          
-            <React.Fragment>
-              <div className={classes.header}>
-                <Link to={`/profile/${userId}`}>
-                  <div className={classes.avt}>
-                    <Avatar
-                      image={`http://localhost:5000/${props.userImage}`}
-                      alt={props.alt}
-                    />
-                  </div>
-                  <div className={classes.name}>
-                    <h3>{props.name}</h3>
-                  </div>
-                </Link>
-                {!props.full && 
-                <div className={classes.fullpostOpt}>
-                  <Link to={`/post/${props.id}`}> View full post</Link>
-                </div>
-                }
-                {userId == ctx.userId && (
-                  <button className={classes.delete}> Delete Post</button>
-                )}
+        <React.Fragment>
+          <div className={classes.header}>
+            <Link to={`/profile/${userId}`}>
+              <div className={classes.avt}>
+                <img
+                  src={`http://localhost:5000/${props.userImage}`}
+                  alt={"this is a photo"}
+                />
               </div>
-              <h5>{props.date}</h5>
-              <div className={classes.line}></div>
-
-              <div className={classes.post}>
-                <p>{props.post}</p>
-                <div className={classes.postImage}>
-                  {props.postImage && <img src={props.postImage} />}
-                </div>
+              <div className={classes.name}>
+                <h3>{props.name}</h3>
               </div>
-            </React.Fragment>
+            </Link>
+          </div>
+          <h5>{props.date}</h5>
           <div className={classes.line}></div>
+
+          <div className={classes.post}>
+            <p>{props.post}</p>
+            <div className={classes.postImage}>
+              {props.postImage && <img src={props.postImage} />}
+            </div>
+          </div>
+
+          <div className={classes.line}></div>
+          <div className={classes.options}>
+            {!props.full && (
+              // <div className={classes.fullpostOpt}>
+                <Link to={`/post/${props.id}`}> View full post</Link>
+              // </div>
+            )}
+            {userId == ctx.userId && (
+            <button className={classes.delete}> Delete Post</button>
+          )}
+          </div>
           <div className={classes.actions}>
             {isLoading && <LoadingSpinner />}
             {!isLoading && (
@@ -201,9 +191,9 @@ const PostItem = (props) => {
               comment
             </button>
           </div>
-        </Card>
+        </React.Fragment>
       )}
-    </li>
+    </Card>
   );
 };
 

@@ -11,7 +11,7 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const FriendRequestItem = (props) => {
   const ctx = useContext(AuthContext);
-  const { isLoading, error, clearError, sendRequest } = useHttpClient();
+  const { isLoading,sendRequest } = useHttpClient();
   const acceptHandler = async () => {
     if (ctx.userId) {
       const userId = props.userId;
@@ -49,7 +49,7 @@ const FriendRequestItem = (props) => {
       <div className={classes.info}>
         <Link to={`/profile/${props.userId}`}>
           <div className={classes.photo}>
-            <Avatar image={props.image} />
+            <Avatar image={`http://localhost:5000/${props.userImage}`} />
           </div>
           <h2>{props.name}</h2>
         </Link>

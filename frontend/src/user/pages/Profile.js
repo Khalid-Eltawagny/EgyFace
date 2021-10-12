@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import { useContext } from "react";
@@ -16,7 +16,7 @@ const Profile = () => {
   const [info, setInfo] = useState(null);
   const [posts, setPosts] = useState(null);
   const [friendAdded, setFriendAdded] = useState(undefined);
-  const { isLoading, sendRequest, error, clearError } = useHttpClient();
+  const { isLoading, sendRequest,  clearError } = useHttpClient();
   const [showSendRequest, setShowSendRequest] = useState(false);
 
   const ctx = useContext(AuthContext);
@@ -27,7 +27,7 @@ const Profile = () => {
     const to = +profileId;
     const req = { from_user_id: from, to_user_id: to };
     try {
-      const response = await sendRequest(
+       await sendRequest(
         `http://localhost:5000/api/users/friendrequest`,
         "POST",
         JSON.stringify(req),

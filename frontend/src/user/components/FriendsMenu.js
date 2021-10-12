@@ -26,7 +26,7 @@ const FriendsMenu = (props) => {
       userId={friend.userId}
       key={friend.userId}
       name={friend.name}
-      image={friend.image}
+      userImage={friend.userImage}
       refresh={props.refresh}
     />
   ));

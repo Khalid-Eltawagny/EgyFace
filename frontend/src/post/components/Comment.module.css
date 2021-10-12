@@ -1,79 +1,106 @@
-.header{
-    display: flex;
-    justify-content: flex-start;
-    width: 50%;
+.header {
+  display: flex;
+  justify-content: flex-start;
+  width: 50%;
 }
 .avt {
-    width: 20%;
-    margin-right: 20px;
+  width: 20%;
+  margin-right: 20px;
 }
-.item{
-    width: 70%;
-    list-style: none;
-    margin: 0 auto;
+.item {
+  width: 60%;
+  list-style: none;
+  margin: 0 auto;
 }
-.line{
-    width: 100%;
-    margin: 8px 0 ;
-    border-bottom: 1px solid rgb(221, 216, 216);
+.line {
+  width: 100%;
+  margin: 8px 0;
+  border-bottom: 1px solid rgb(221, 216, 216);
 }
 
-.actions{
-    display: flex;
-    width: 100%;
-    border: 1px solid rgb(204, 203, 198);
-    border-radius: 6px ;
-    padding: 10px;
-    align-items: center;
+.actions {
+  display: flex;
+  width: 100%;
+  border: 1px solid rgb(204, 203, 198);
+  border-radius: 6px;
+  padding: 10px;
+  align-items: center;
 }
 
 .actions button {
-    margin: 0 10px;
-    border: 1px solid rgb(185, 185, 190);
-    border-radius: 6px;
-    padding: 5px;
-    font-weight: bold;
+  margin: 0 10px;
+  border: 1px solid rgb(185, 185, 190);
+  border-radius: 6px;
+  padding: 5px;
+  font-weight: bold;
 }
 
-button:hover{
-    cursor: pointer;
+button:hover {
+  cursor: pointer;
 }
 
-h4{
-    margin: 0;
-    display: inline;
+h4 {
+  margin: 0;
+  display: inline;
 }
-.liked{
-    background-color: blue;
+.liked {
+  background-color: blue;
 }
-p{
-    font-size: 20px;
-    font-weight: 300;
-}
-
-.postImage{
-    width: 50%;
-    margin: auto;
-    
+p {
+  font-size: 20px;
+  font-weight: 300;
 }
 
-.postImage img{
-    width: 80%;
-    object-fit: cover;
+.postImage {
+  width: 50%;
+  margin: auto;
 }
 
-h5{
-    margin: 4px;
-    font-weight: 100;
+.postImage img {
+  width: 80%;
+  object-fit: cover;
 }
-p{
-    margin: 0;
+
+h5 {
+  margin: 4px;
+  font-weight: 100;
+}
+p {
+  margin: 0;
 }
 
 .comment {
-    background-color: rgb(5, 151, 219);
-    color: white;
-    border: 1px solid blue ; 
-    border-radius: 6px;
-    margin-bottom: 4px;
+  color: white;
+  border: 1px solid black;
+  border-radius: 0px;
+}
+
+.header {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header a {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+  }
+.avt {
+  width: 10%;
+  height: 100%;
+  margin-right: 20px;
+  overflow: hidden;
+}
+
+.avt img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

@@ -5,7 +5,6 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useHttpClient } from "../../shared/hooks/use-http";
-import { Fragment } from "react";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import classes from "./Home.module.css";
 
@@ -13,7 +12,7 @@ const Home = () => {
   const [posts, setPosts] = useState(null);
   const [friendsIds, setFriendsIds] = useState(false);
   const ctx = useContext(AuthContext);
-  const { isLoading, error, clearError, sendRequest } = useHttpClient();
+  const { isLoading , sendRequest } = useHttpClient();
 
   const getPosts = async (id) => {
     console.log("here");
@@ -41,13 +40,14 @@ const Home = () => {
           });
         });
         posts = await Promise.all(promises);
+        console.log('friends posts ',posts) ; 
       }
 
       console.log(posts);
       if (posts && posts[0].length > 0) {
-        console.log('here') ; 
+        console.log("hereeeeeeeeeeeeeee");
         const imagePromises = posts[0].map((post) => {
-          console.log(post) ; 
+          console.log(post);
           return new Promise(async (resolve, reject) => {
             try {
               console.log(post);
@@ -112,27 +112,27 @@ const Home = () => {
   }, [ctx]);
 
   return (
-    <Fragment>
-      <div className={classes.container}>
-        <NewPost refresh={refresh} />
-        <div className={classes.postsContainer}>
-          {!isLoading && posts && (
-            <PostsList
-              posts={friendsIds ? posts[0] : posts}
-              refresh={refresh}
-            />
-          )}
-          {isLoading && <LoadingSpinner />}
-          {!isLoading &&
-            posts &&
-            friendsIds &&
-            posts[0] &&
-            posts[0].length === 0 && <h1>No posts yet.</h1>}
-          {!isLoading && !posts && <h1>No posts yet.</h1>}
-          {!isLoading && posts && posts.length === 0 && <h1>No posts yet.</h1>}
-        </div>
+    <div className={classes.container}>
+
+      
+      <NewPost refresh={refresh} />
+
+
+
+      <div className={classes.postsContainer}>
+        {!isLoading && posts && (
+          <PostsList posts={friendsIds ? posts[0] : posts} refresh={refresh} />
+        )}
+        {isLoading && <LoadingSpinner />}
+        {!isLoading &&
+          posts &&
+          friendsIds &&
+          posts[0] &&
+          posts[0].length === 0 && <h1>No posts yet.</h1>}
+        {!isLoading && !posts && <h1>No posts yet.</h1>}
+        {!isLoading && posts && posts.length === 0 && <h1>No posts yet.</h1>}
       </div>
-    </Fragment>
+    </div>
   );
 };
 

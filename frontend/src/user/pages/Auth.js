@@ -40,6 +40,7 @@ const Auth = () => {
   );
 
   const LoginHandler = () => {
+    clearError();
     setFormData({
       ...formState.inputs,
       name: undefined,
@@ -48,6 +49,7 @@ const Auth = () => {
     setIsLogInMode(true);
   };
   const signUpHandler = () => {
+    clearError() ;
     setFormData({
       ...formState.inputs,
       name: {

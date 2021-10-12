@@ -38,6 +38,8 @@ const CommentsList = (props) => {
         image={comment.image}
         key={comment.id}
         refresh = {props.refresh}
+        userImage = {comment.userImage}
+        userId={comment.user_id}
       />
     );
   });

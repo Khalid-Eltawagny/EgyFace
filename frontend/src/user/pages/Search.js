@@ -6,7 +6,6 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 import { AuthContext } from "../../shared/context/auth-context";
 import { useContext } from "react";
-import { useEffect } from "react";
 import { useHttpClient } from "../../shared/hooks/use-http";
 
 import UserSearchList from "../components/UserSearchList";
@@ -24,13 +23,14 @@ const Search = () => {
       const res = await sendRequest(
         `http://localhost:5000/api/users/${userId}/getUsers`
       );
+      console.log(res) ; 
       setUsers(res);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const { isLoading, clearError, error, sendRequest } = useHttpClient();
+  const { isLoading, sendRequest } = useHttpClient();
   return (
     <div className={classes.container}>
       <section className={classes.actions}>

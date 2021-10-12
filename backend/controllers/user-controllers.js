@@ -252,6 +252,7 @@ const getSinglePost = async (req, res, next) => {
       return next(new HttpError("No user found,please try again.", 500));
     }
     const name = result[0].name;
+    const userImage = result[0].image ; 
     const query = `SELECT * FROM posts where id = ${postId}`;
     con.query(query, async (err, result) => {
       if (err) {
@@ -287,7 +288,7 @@ const getSinglePost = async (req, res, next) => {
 
           const comments = result[0].comments;
 
-          const postjson = { postId, ...post, likes, comments, name };
+          const postjson = { postId, ...post, likes, comments, name , userImage };
           // const posts = result.map((post, i) => {
           //   return {
           //     postId: post.id,

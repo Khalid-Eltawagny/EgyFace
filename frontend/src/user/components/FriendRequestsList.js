@@ -45,7 +45,7 @@ const FriendRequestsList = (props) => {
       <FriendRequestItem
         userId={req.userId}
         name={req.name}
-        image={req.image}
+        userImage={req.userImage}
         refresh={props.refresh}
         key={req.userId}
       />

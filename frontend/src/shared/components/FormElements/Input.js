@@ -50,7 +50,6 @@ const Input = (props) => {
     });
   };
 
-  const reset = () => {};
 
   const element =
     props.element === "input" ? (

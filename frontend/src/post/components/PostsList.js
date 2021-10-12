@@ -22,7 +22,7 @@ const PostsList = (props) => {
       />
     );
   });
-  return <ul> {posts} </ul>;
+  return <> {posts} </>;
 };
 
 export default PostsList;

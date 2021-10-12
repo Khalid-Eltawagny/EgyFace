@@ -10,13 +10,13 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useContext } from "react";
 
 const FriendItem = (props) => {
-  const { isLoading, error, clearError, sendRequest } = useHttpClient();
+  const { isLoading, sendRequest } = useHttpClient();
   const ctx = useContext(AuthContext);
   const unfriendHandler = async () => {
     if (ctx.userId) {
       const payload = { person_1_id: ctx.userId, person_2_id: props.userId };
       try {
-        const res = await sendRequest(
+        await sendRequest(
           `http://localhost:5000/api/users/unfriend`,
           "POST",
           JSON.stringify(payload),
@@ -31,7 +31,7 @@ const FriendItem = (props) => {
       <div className={classes.info}>
         <Link to={`/profile/${props.userId}`}>
           <div className={classes.photo}>
-            <Avatar image={props.image} />
+            <Avatar image={`http://localhost:5000/${props.userImage}`} />
           </div>
           <h2>{props.name}</h2>
         </Link>

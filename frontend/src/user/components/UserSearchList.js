@@ -17,7 +17,7 @@ const UserSearchList = (props) => {
         searchedWord={props.word}
         userId={user.id}
         name={user.name}
-        image={user.userImage}
+        userImage={user.image}
       />
     );
   });
