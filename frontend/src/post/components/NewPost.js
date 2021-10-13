@@ -9,6 +9,7 @@ import classes from "./NewPost.module.css";
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 import { useHttpClient } from "../../shared/hooks/use-http";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 
 const NewPost = (props) => {
   const ctx = useContext(AuthContext);
@@ -19,18 +20,40 @@ const NewPost = (props) => {
         value: "",
         isValid: false,
       },
+      post_image: {
+        value: undefined,
+        isValid: true,
+      },
     },
     false
   );
   const submitPostHandler = async () => {
-    const post = { user_id: ctx.userId, post: formState.inputs.post.value };
+    console.log(formState.inputs.post_image.value);
+
+    const postData = new FormData();
+    postData.append("user_id", ctx.userId);
+    postData.append("post", formState.inputs.post.value);
+    if (formState.inputs.post_image.value) {
+      postData.append("post_image", formState.inputs.post_image.value);
+    }
+     const post = { user_id: ctx.userId, post: formState.inputs.post.value };
     try {
-       await sendRequest(
-        "http://localhost:5000/api/posts/new",
-        "POST",
-        JSON.stringify(post),
-        { "Content-Type": "application/json" }
-      );
+      if (formState.inputs.post_image.value) {
+        console.log('123123') ; 
+        await sendRequest(
+          "http://localhost:5000/api/posts/newWithPhoto",
+          "POST",
+          postData
+        );
+      } else {
+        console.log('hereeee') ; 
+        await sendRequest(
+          "http://localhost:5000/api/posts/new",
+          "POST",
+          JSON.stringify(post),
+          {"Content-Type":"application/json"}
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -52,13 +75,17 @@ const NewPost = (props) => {
       </div>
       <div className={classes.actions}>
         <div>
-          <button className={classes.addPhoto}>ADD PHOTO</button>
+          <ImageUpload id="post_image" center onInput={inputHandler} />
         </div>
-        <div>
-          <button className={classes.post} onClick={submitPostHandler}>
-            POST
-          </button>
-        </div>
+      </div>
+      <div className={classes.postCont}>
+        <button
+          className={classes.post}
+          disabled={!formState.isValid}
+          onClick={submitPostHandler}
+        >
+          POST
+        </button>
       </div>
     </Card>
   );

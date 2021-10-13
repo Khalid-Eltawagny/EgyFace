@@ -88,7 +88,7 @@ const FullPost = () => {
             comments={post.comments}
             name={post.name}
             date={post.date}
-            postImage={post.postImage}
+            postImage={post.post_image}
             userImage={post.userImage}
             full={true}
             refresh={refresh}

@@ -25,7 +25,7 @@ const getUsers = async (req, res, next) => {
         new HttpError("Something went wrong, please try agian later.", 422)
       );
     }
-    res.status(200).json(result) ;  
+    res.status(200).json(result);
   });
 };
 const getInfo = async (req, res, next) => {
@@ -87,7 +87,7 @@ const signUp = async (req, res, next) => {
       name,
       password: hashedPassword,
       email,
-      image:req.file.path
+      image: req.file.path,
     };
 
     const query = "INSERT INTO users SET ?";
@@ -252,7 +252,7 @@ const getSinglePost = async (req, res, next) => {
       return next(new HttpError("No user found,please try again.", 500));
     }
     const name = result[0].name;
-    const userImage = result[0].image ; 
+    const userImage = result[0].image;
     const query = `SELECT * FROM posts where id = ${postId}`;
     con.query(query, async (err, result) => {
       if (err) {
@@ -288,16 +288,14 @@ const getSinglePost = async (req, res, next) => {
 
           const comments = result[0].comments;
 
-          const postjson = { postId, ...post, likes, comments, name , userImage };
-          // const posts = result.map((post, i) => {
-          //   return {
-          //     postId: post.id,
-          //     ...post,
-          //     likes: likes[i][0].likes,
-          //     comments: comments[i][0].comments,
-          //     name: name,
-          //   };
-          // });
+          const postjson = {
+            postId,
+            ...post,
+            likes,
+            comments,
+            name,
+            userImage,
+          };
           console.log(postjson);
           res.status(200).json(postjson);
         });
@@ -448,6 +446,19 @@ const isLiked = async (req, res, next) => {
   });
 };
 
+const checkReq = async (req, res, next) => {
+  const { from_user_id, to_user_id } = req.body;
+  const query = `SELECT * FROM requests WHERE from_user_id = ${from_user_id} AND to_user_id = ${to_user_id}`;
+  con.query(query,(err,result) => {
+    if (err) {
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    if (result.length > 0){
+      return res.status(200).json({found:true}) ; 
+    }
+    return res.status(200).json({found:false}) ;
+  }) ; 
+};
 exports.signUp = signUp;
 exports.signIn = signIn;
 exports.getInfo = getInfo;
@@ -460,4 +471,5 @@ exports.declineReq = declineReq;
 exports.unfriend = unfriend;
 exports.getSinglePost = getSinglePost;
 exports.isLiked = isLiked;
-exports.getUsers = getUsers ; 
+exports.getUsers = getUsers;
+exports.checkReq = checkReq ; 

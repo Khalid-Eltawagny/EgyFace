@@ -1,6 +1,8 @@
 .card {
   width: 60%;
   margin-bottom: 20px;
+  position: relative;
+  padding: 20px;
 }
 
 .input input {
@@ -12,7 +14,7 @@
 
 .actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: center
 }
 .post {
   background-color: rgb(9, 105, 231);
@@ -21,6 +23,10 @@
   color: white;
   font-weight: 800;
   border-radius: 6px;
+}
+
+.postCont{
+  text-align: right;
 }
 
 .addPhoto {

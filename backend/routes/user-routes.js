@@ -44,4 +44,6 @@ router.get("/isLiked/:uid/:pid", userControllers.isLiked);
 
 router.get("/:id/getUsers", userControllers.getUsers);
 
+router.post("/checkReq",userControllers.checkReq) ; 
+
 module.exports = router;

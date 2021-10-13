@@ -16,7 +16,8 @@ const Profile = () => {
   const [info, setInfo] = useState(null);
   const [posts, setPosts] = useState(null);
   const [friendAdded, setFriendAdded] = useState(undefined);
-  const { isLoading, sendRequest,  clearError } = useHttpClient();
+  const [reqSent, setReqSent] = useState(false);
+  const { isLoading, sendRequest, clearError } = useHttpClient();
   const [showSendRequest, setShowSendRequest] = useState(false);
 
   const ctx = useContext(AuthContext);
@@ -27,7 +28,7 @@ const Profile = () => {
     const to = +profileId;
     const req = { from_user_id: from, to_user_id: to };
     try {
-       await sendRequest(
+      await sendRequest(
         `http://localhost:5000/api/users/friendrequest`,
         "POST",
         JSON.stringify(req),
@@ -53,14 +54,35 @@ const Profile = () => {
   }, [profileId]);
 
   useEffect(() => {
+    const payload = { from_user_id: ctx.userId, to_user_id: profileId };
+    const checkReq = async () => {
+      try {
+        console.log("here");
+        const res = await sendRequest(
+          `http://localhost:5000/api/users/checkReq`,
+          "POST",
+          JSON.stringify(payload),
+          {
+            "Content-Type": "application/json",
+          }
+        );
+        console.log(res);
+        setReqSent(res.found);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    checkReq();
+  }, [ctx, profileId]);
+  useEffect(() => {
     if (info) {
       const getPosts = async () => {
         try {
           const response = await sendRequest(
             `http://localhost:5000/api/users/${profileId}/posts`
           );
-          response.forEach(element => {
-            element["userImage"] = info.userImage
+          response.forEach((element) => {
+            element["userImage"] = info.userImage;
           });
           console.log(response);
           response.reverse();
@@ -103,17 +125,23 @@ const Profile = () => {
         <div className={classes.info}>
           <h1>{info.name}</h1>
           <img src={`http://localhost:5000/${info.userImage}`} />
-          <div className={classes.friends}>
-            <h2>Friends </h2>
-            <Link to="/profile/friends">View all friends</Link>
-          </div>
+          {!isLoading &&
+            info &&
+            info.userId.toString() !== ctx.userId.toString() &&
+            !friendAdded &&
+            showSendRequest && (
+              <div className={classes.friends}>
+                <h2>Friends </h2>
+                <Link to="/profile/friends">View all friends</Link>
+              </div>
+            )}
           <div className={classes.cont}>
             {isLoading && <LoadingSpinner />}
             {!isLoading &&
               info &&
               info.userId.toString() !== ctx.userId.toString() &&
               !friendAdded &&
-              showSendRequest && (
+              showSendRequest && !reqSent && (
                 <button className={classes.btn} onClick={addFriendHandler}>
                   Add friend
                 </button>
@@ -121,7 +149,7 @@ const Profile = () => {
             {!isLoading &&
               info &&
               info.userId.toString() !== ctx.userId.toString() &&
-              friendAdded && (
+              (friendAdded || reqSent) && (
                 <h4
                   style={{
                     backgroundColor: "green",

@@ -12,9 +12,10 @@ const Home = () => {
   const [posts, setPosts] = useState(null);
   const [friendsIds, setFriendsIds] = useState(false);
   const ctx = useContext(AuthContext);
-  const { isLoading , sendRequest } = useHttpClient();
+  const { isLoading, sendRequest } = useHttpClient();
 
   const getPosts = async (id) => {
+    let allPosts = [];
     console.log("here");
     try {
       const friendsIds = await sendRequest(
@@ -40,31 +41,31 @@ const Home = () => {
           });
         });
         posts = await Promise.all(promises);
-        console.log('friends posts ',posts) ; 
+        console.log("friends posts ", posts);
       }
-
       console.log(posts);
-      if (posts && posts[0].length > 0) {
-        console.log("hereeeeeeeeeeeeeee");
-        const imagePromises = posts[0].map((post) => {
-          console.log(post);
-          return new Promise(async (resolve, reject) => {
-            try {
-              console.log(post);
-              const info = await sendRequest(
-                `http://localhost:5000/api/users/${post.user_id}/info`
-              );
-              post["userImage"] = info.userImage;
-              resolve();
-            } catch (error) {
-              return reject(error);
-            }
+      if (posts) {
+        let imagePromises;
+        posts.forEach((friendPosts) => {
+          console.log(friendPosts);
+          imagePromises = friendPosts.map((post) => {
+            console.log(post);
+            return new Promise(async (resolve, reject) => {
+              try {
+                console.log(post);
+                const info = await sendRequest(
+                  `http://localhost:5000/api/users/${post.user_id}/info`
+                );
+                post["userImage"] = info.userImage;
+                resolve();
+              } catch (error) {
+                return reject(error);
+              }
+            });
           });
         });
         await Promise.all(imagePromises);
       }
-
-      console.log(posts);
       try {
         const info = await sendRequest(
           `http://localhost:5000/api/users/${id}/info`
@@ -77,26 +78,19 @@ const Home = () => {
         myposts.forEach((element) => {
           element["userImage"] = info.userImage;
         });
-        if (posts.length === 0) {
-          myposts.sort((x, y) => {
-            return +new Date(y.post_date) - +new Date(x.post_date);
+        myposts.forEach((post) => allPosts.push(post));
+        posts.forEach((friendPosts) => {
+          friendPosts.forEach((post) => {
+            allPosts.push(post);
           });
-          setPosts(myposts);
-        } else {
-          myposts.forEach((post) => {
-            posts[0].push(post);
-          });
-        }
-      } catch (error) {}
-      if (posts.length !== 0) {
-        console.log(posts);
-        posts[0].sort((x, y) => {
+        });
+        console.log(allPosts);
+        allPosts.sort((x, y) => {
           return +new Date(y.post_date) - +new Date(x.post_date);
         });
-        console.log(posts);
-        setPosts(posts);
-      }
-      console.log(posts);
+        setPosts(allPosts) ; 
+      } catch (error) {}
+
     } catch (error) {}
   };
 
@@ -113,22 +107,14 @@ const Home = () => {
 
   return (
     <div className={classes.container}>
-
-      
       <NewPost refresh={refresh} />
 
-
-
       <div className={classes.postsContainer}>
-        {!isLoading && posts && (
-          <PostsList posts={friendsIds ? posts[0] : posts} refresh={refresh} />
-        )}
+        {!isLoading && posts && <PostsList posts={posts} refresh={refresh} />}
         {isLoading && <LoadingSpinner />}
-        {!isLoading &&
-          posts &&
-          friendsIds &&
-          posts[0] &&
-          posts[0].length === 0 && <h1>No posts yet.</h1>}
+        {!isLoading && posts && friendsIds && posts && posts.length === 0 && (
+          <h1>No posts yet.</h1>
+        )}
         {!isLoading && !posts && <h1>No posts yet.</h1>}
         {!isLoading && posts && posts.length === 0 && <h1>No posts yet.</h1>}
       </div>

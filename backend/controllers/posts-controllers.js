@@ -25,6 +25,7 @@ const addPost = async (req, res, next) => {
   const query = `SELECT * FROM users WHERE id = ${user_id}`;
   con.query(query, (err, result) => {
     if (err) {
+      console.log(err) ; 
       return next(new HttpError("Something went wrong,please try again.", 500));
     }
     if (result.result === 0) {
@@ -40,6 +41,8 @@ const addPost = async (req, res, next) => {
     const query = "INSERT INTO posts SET ?";
     con.query(query, Post, (err, result) => {
       if (err) {
+      console.log(err) ; 
+
         return next(
           new HttpError("Something went wrong,please try again.", 500)
         );
@@ -115,11 +118,11 @@ const like = async (req, res, next) => {
         next(new HttpError("Something went wrong,please try again.", 500))
       );
     }
-    res.status(201).json() ;
+    res.status(201).json();
   });
 };
 
-const dislike = async(req,res,next) => {
+const dislike = async (req, res, next) => {
   const likeInfo = req.body;
   const query = `DELETE FROM likes WHERE user_id = ${likeInfo.user_id} AND post_id = ${likeInfo.post_id}`;
   con.query(query, likeInfo, (err, result) => {
@@ -128,7 +131,43 @@ const dislike = async(req,res,next) => {
         next(new HttpError("Something went wrong,please try again.", 500))
       );
     }
-    res.status(201).json() ;
+    res.status(201).json();
+  });
+};
+
+const addPostWithPhoto = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return next(new HttpError("Invalid post,please try again.", 500));
+  }
+  console.log(req.body) ; 
+  const { user_id, post, post_image } = req.body;
+  const query = `SELECT * FROM users WHERE id = ${user_id}`;
+  con.query(query, (err, result) => {
+    if (err) {
+      return next(new HttpError("Something went wrong,please try again.", 500));
+    }
+    if (result.result === 0) {
+      return next(
+        new HttpError("Couldn't create this post,please try again.", 500)
+      );
+    }
+    const Post = {
+      user_id,
+      post: post,
+      post_image:req.file.path
+    };
+
+    const query = "INSERT INTO posts SET ?";
+    con.query(query, Post, (err, result) => {
+      if (err) {
+        return next(
+          new HttpError("Something went wrong,please try again.", 500)
+        );
+      }
+      res.status(201).json(result);
+    });
   });
 };
 
@@ -138,3 +177,4 @@ exports.newComment = newComment;
 exports.getComments = getComments;
 exports.like = like;
 exports.dislike = dislike;
+exports.addPostWithPhoto = addPostWithPhoto;

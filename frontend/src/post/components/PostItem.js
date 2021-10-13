@@ -137,21 +137,25 @@ const PostItem = (props) => {
 
           <div className={classes.post}>
             <p>{props.post}</p>
-            <div className={classes.postImage}>
-              {props.postImage && <img src={props.postImage} />}
-            </div>
+            {props.postImage && (
+              <div className={classes.postImage}>
+                {props.postImage && (
+                  <img src={`http://localhost:5000/${props.postImage}`} />
+                )}
+              </div>
+            )}
           </div>
 
           <div className={classes.line}></div>
           <div className={classes.options}>
             {!props.full && (
               // <div className={classes.fullpostOpt}>
-                <Link to={`/post/${props.id}`}> View full post</Link>
+              <Link to={`/post/${props.id}`}> View full post</Link>
               // </div>
             )}
             {userId == ctx.userId && (
-            <button className={classes.delete}> Delete Post</button>
-          )}
+              <button className={classes.delete}> Delete Post</button>
+            )}
           </div>
           <div className={classes.actions}>
             {isLoading && <LoadingSpinner />}

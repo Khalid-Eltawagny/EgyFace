@@ -30,6 +30,9 @@ const ImageUpload = (props) => {
       fileIsValid = false;
       setIsValid(false);
     }
+    console.log(props.id) ; 
+    console.log(pickedFile) ; 
+    console.log(fileIsValid) ; 
     props.onInput(props.id, pickedFile, fileIsValid);
   };
 
